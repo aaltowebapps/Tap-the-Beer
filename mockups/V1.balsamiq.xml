@@ -1,0 +1,84 @@
+<mockup version="1.0" skin="sketch" measuredW="995" measuredH="576" mockupW="991" mockupH="560">
+  <controls>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::iPhone" x="4" y="57" w="-1" h="-1" measuredW="282" measuredH="510" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::Button" x="63" y="378" w="141" h="30" measuredW="141" measuredH="27" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Get%20Current%20location</text>
+      </controlProperties>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::Button" x="91" y="244" w="-1" h="-1" measuredW="98" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Regular%20Bar1</text>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::Button" x="91" y="271" w="-1" h="-1" measuredW="100" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Regular%20Bar2</text>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::Button" x="91" y="299" w="-1" h="-1" measuredW="100" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Regular%20Bar3</text>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::SubTitle" x="21" y="16" w="-1" h="-1" measuredW="249" measuredH="33" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>First%20Screen%20after%20login</text>
+      </controlProperties>
+    </control>
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::StickyNote" x="276" y="173" w="168" h="307" measuredW="109" measuredH="123" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Select%20the%20correct%20bar.%20Retrieve%20list%20and%20background%20the%20matching%20of%20the%20Untappd%20VenueId%27s%0A%20%0A*%0AStore%20the%20Lat%20and%20Long%20%28needed%20all%20over%20the%20place%21%29.%20Should%20always%20store%20the%20lat-long%20of%20regular%20bars</text>
+      </controlProperties>
+    </control>
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::StickyNote" x="21" y="415" w="-1" h="-1" measuredW="109" measuredH="123" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Screen%20changes%20to%20a%20list%20of%20places%20retrieved%20from%204Sq%2C%20if%20button%20pressed</text>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="__group__" x="431" y="57" w="282" h="510" measuredW="282" measuredH="510" zOrder="5" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::iPhone" x="0" y="0" w="-1" h="-1" measuredW="282" measuredH="510" zOrder="0" locked="false" isInGroup="56"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::CheckBoxGroup" x="95" y="185" w="-1" h="-1" measuredW="93" measuredH="140" zOrder="1" locked="false" isInGroup="56">
+          <controlProperties>
+            <size>20</size>
+            <text>%5B%20%5D%20Beer1%0A%5B%20%5D%20Beer2%0A%5B%20%5D%20Beer3%0A%5B%20%5D%20Beer4%0A%5B%20%5D%20Beer5</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="48" y="123" w="-1" h="-1" measuredW="186" measuredH="37" zOrder="2" locked="false" isInGroup="56">
+          <controlProperties>
+            <size>28</size>
+            <text>The%20Bar%20Name</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::Button" x="510" y="400" w="-1" h="-1" measuredW="113" measuredH="27" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>check%20into%20beer</text>
+      </controlProperties>
+    </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::Button" x="506" y="438" w="117" h="27" measuredW="87" measuredH="27" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>change%20bar</text>
+      </controlProperties>
+    </control>
+    <control controlID="59" controlTypeID="com.balsamiq.mockups::Canvas" x="743" y="237" w="221" h="228" measuredW="100" measuredH="70" zOrder="11" locked="false" isInGroup="-1"/>
+    <control controlID="60" controlTypeID="com.balsamiq.mockups::StickyNote" x="728" y="454" w="267" h="122" measuredW="109" measuredH="123" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Overlay%20canvas%20for%20check-in%20message%0A*%0Alater%20for%20check%20boxes%20for%204Sq%2C%20Twitter%20%26%20FB</text>
+      </controlProperties>
+    </control>
+    <control controlID="62" controlTypeID="com.balsamiq.mockups::Paragraph" x="781" y="264" w="144" h="140" measuredW="200" measuredH="140" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <text>You%20are%20about%20to%20have%20a%20%0A%5Bbeer%5D%20%0Aat%20%0A%5BBar%20Name%5D</text>
+      </controlProperties>
+    </control>
+    <control controlID="63" controlTypeID="com.balsamiq.mockups::Button" x="789" y="401" w="-1" h="-1" measuredW="128" measuredH="27" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Yes%2C%20check%20me%20in%21</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
