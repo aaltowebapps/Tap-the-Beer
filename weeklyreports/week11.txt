@@ -1,0 +1,19 @@
+Tap The Beer
+Team leader
+	Mike Bradshaw	
+List of GitHub accountsa
+	CHadetz, tapanila, vainola, ymb
+Description of the web app
+	HTML5 version that actually works for the untappd web service m.untappd.com
+Key use cases
+	Check into beer, find bar, search for beer, reach feeds.
+	See wiki page for plan
+List of client/server technologies
+	HTML5, JSON, HTTP, XML, CSS
+Target devices
+	Windows Phone 7, Android, iPhone, N9, N900, N8 (Symbian), Windows 8
+How it fulfills the 3 assignment criteria
+	HTML5 core API - Will make use of localstorage, and possibly canvas
+	Mobile - GPS for location
+	REST - untappd is a rest service (will also need to access 4Sq API)
+
