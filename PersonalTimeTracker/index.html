@@ -36,22 +36,12 @@
         var Templates = {};
 		var Tasks;
 		var tasks;
-        //var articles;
-        
-        //var Article = Backbone.Model.extend ({
-        //});
+       
 		var Task = Backbone.Model.extend( {
 		});
 		
-        
-        /*
-		var Articles = Backbone.Collection.extend ({
-          model: Article,
-          localStorage: new Backbone.LocalStorage("Articles")
-        });
-		*/
 		
-		var Tasks = Backbone.Collection.exten({
+		var Tasks = Backbone.Collection.extend({
 			model: Task,
 			localStorage: new Backbone.LocalStorage("Tasks")
 		});
@@ -78,8 +68,7 @@
             },
             saveValues: function() {
               this.model.save({
-                title: this.$("[data-name='title']").html(), 
-                content: this.$("[data-name='content']").html()
+                taskName: this.$("[data-name='taskName']").html()
               },{silent: true});
             }        
           });
@@ -112,7 +101,7 @@
               "click #postTask": "createNew"
             },
             initialize: function() {
-              this.name = this.$("#name");
+              this.taskName = this.$("#taskName");
             },
             createNew: function() {
               this.$(".invalid").removeClass("invalid");
@@ -121,41 +110,18 @@
                 return false;
               }
               this.collection.create({
-                name: this.name.val()
+                taskName: this.taskName.val()
               }, {at: 0});
-              this.name.val("");
+              this.taskName.val("");
             } 
           });
         
-          //View for editing the options
-          var OptionsView = Backbone.View.extend({
-            el: $("#options"),
-            events: {
-              "click #saveOpt": "saveOptions"
-            },
-            initialize: function() {
-              this.name = this.$("#optName");
-              this.email = this.$("#optEmail");
-              
-              // Assign the options from the local storage
-              this.name.val(localStorage.name);
-              this.email.val(localStorage.email);
-            },
-            saveOptions: function() {
-              this.$(".invalid").removeClass("invalid")
-              if (this.$(":invalid").length) {
-                this.$(":invalid").addClass("invalid");
-                return false;
-              }
-              localStorage.name = this.name.val();
-              localStorage.email = this.email.val();
-            }
-          });
-          
-          //Trigger an update of the articles collection 
+          //Trigger an update of the tasks collection 
           $("#refresh").live('click',function () {
             tasks.fetch();
-          });    
+          });
+		  
+		  
           
           //Instantiate the collection of articles
           //articles = new Articles();
@@ -175,38 +141,34 @@
   </head>
   <body>
     <script id='task' type='text/x-handlebars-template'>
-      <p class='ui-li-aside'>
-        {{timestamp}}
-      </p>
-      <h3 contenteditable='true' data-id='{{id}}' data-name='taskName'>
-        {{taskName}}
-      </h3>
-      <p contenteditable='true' data-id='{{id}}' data-name='startTime'>
-        {{startTime}}
-      </p>
-	  <p contenteditable='true' data-id='{{id}}' data-name='elapsedTime'>
-        {{elapsedTime}}
-      </p>
+		<h3 contenteditable='true' data-id='{{id}}' data-name='taskName'>
+			{{taskName}}
+		</h3>
+		<p contenteditable='true' data-id='{{id}}' data-name='startTime'>
+			{{startTime}}
+		</p>
+		<p contenteditable='true' data-id='{{id}}' data-name='elapsedTime'>
+			{{elapsedTime}}
+		</p>
     </script>
     <div data-role='page' id='home'>
       <div data-role='header'>
-        <h1>Our First Blog</h1>
-        <a class='ui-btn-right' data-icon='gear' data-transition='slidedown' href='#options'>Options</a>
+        <h1>Personal Time Tracker</h1>
       </div>
       <div data-role='content'>
-        <ul data-role='listview' id='articlesList'></ul>
+        <ul data-role='listview' id='taskList'></ul>
       </div>
       <div data-position='fixed' data-role='footer'>
         <div data-role='navbar'>
           <ul>
             <li>
-              <a data-icon='home' href='/'>Posts</a>
+              <a data-icon='home' href='#home'>Tasks</a>
             </li>
             <li>
               <a data-icon='refresh' href='#home' id='refresh'>Refresh</a>
             </li>
             <li>
-              <a data-icon='plus' data-transition='flip' href='#new'>New Entry</a>
+              <a data-icon='plus' data-transition='flip' href='#new'>New Task</a>
             </li>
           </ul>
         </div>
@@ -215,7 +177,6 @@
     <div data-role='page' id='new'>
       <div data-role='header'>
         <h1>Create new task</h1>
-        <a class='ui-btn-right' data-icon='gear' data-transition='slidedown' href='#options'>Options</a>
       </div>
       <div data-role='content'>
         <form>
@@ -227,41 +188,13 @@
         <div data-role='navbar'>
           <ul>
             <li>
-              <a data-icon='home' href='/'>Posts</a>
+              <a data-icon='home' href='#home'>Tasks</a>
             </li>
             <li>
               <a data-icon='refresh' href='#home' id='refresh'>Refresh</a>
             </li>
             <li>
-              <a data-icon='plus' data-transition='flip' href='#new'>New Entry</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div data-role='page' id='options'>
-      <div data-position='inline' data-role='header'>
-        <a data-icon='delete' data-rel='back' href='#home'>Cancel</a>
-        <h1>Options</h1>
-        <a data-icon='check' data-rel='back' data-theme='b' href='#home' id='saveOpt'>Save</a>
-      </div>
-      <div data-role='content'>
-        <form>
-          <input id='optName' name='name' placeholder='Name' type='text' />
-          <input id='optEmail' name='email' placeholder='Email' type='email' />
-        </form>
-      </div>
-      <div data-position='fixed' data-role='footer'>
-        <div data-role='navbar'>
-          <ul>
-            <li>
-              <a data-icon='home' href='/'>Posts</a>
-            </li>
-            <li>
-              <a data-icon='refresh' href='#home' id='refresh'>Refresh</a>
-            </li>
-            <li>
-              <a data-icon='plus' data-transition='flip' href='#new'>New Entry</a>
+              <a data-icon='plus' data-transition='flip' href='#new'>New Task</a>
             </li>
           </ul>
         </div>
