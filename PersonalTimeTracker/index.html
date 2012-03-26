@@ -98,7 +98,7 @@
           var NewView = Backbone.View.extend({
             el: $("#new"),
             events: {
-              "click #postTask": "createNew"
+              "click #postEntry": "createNew"
             },
             initialize: function() {
               this.taskName = this.$("#taskName");
@@ -140,7 +140,7 @@
     </script>
   </head>
   <body>
-    <script id='task' type='text/x-handlebars-template'>
+    <script id='Task' type='text/x-handlebars-template'>
 		<h3 contenteditable='true' data-id='{{id}}' data-name='taskName'>
 			{{taskName}}
 		</h3>
