@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            $(document).ready(function () {
+				jQuery.support.cors = true;
+                var key = '4fb77f74cefc1d0e9429091273114839';
+                var username = '';
+                var password = '';
+                var passwordHash = Crypto.MD5(password);
+                var authString = btoa(username + ':'
+ + passwordHash);
+ 
+                $.ajax({
+                    url: 'http://api.untappd.com/v3/checkin_test?key=' + key,
+                    type: 'POST',
+                    dataType: 'json',
+                    beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Basic ' + authString); },
+                    data: { bid: 3787, gmt_offset: 0},
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
