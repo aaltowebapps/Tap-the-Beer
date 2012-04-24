@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Tap The Beer</title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
+		<script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="cordova-1.6.1.js"></script>
+    </head>
+    <body>
+	<script type="text/javascript">
+	    function login() {
+	        jQuery.support.cors = true;
+	        var username = document.getElementById('username').value;
+	        var password = document.getElementById('password').value;
+	        var key = '4fb77f74cefc1d0e9429091273114839';
+	        var passwordHash = Crypto.MD5(password);
+	        var authString = btoa(username + ':' + passwordHash);
+	        $.ajax({
+	            url: 'http://api.untappd.com/v3/checkin_test?key=' + key,
+	            type: 'POST',
+	            dataType: 'json',
+	            beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Basic ' + authString); },
+	            success: function (data) {
+	                alert("Test");
+	                window.location = 'index.html#bars';
+	                getNearestPlaces();
+	            },
+	            error: function (jqXHR, textStatus, errorThrown) {
+	                console.log("jqXHR: ", jqXHR);
+	                console.log("textStatus: ", textStatus);
+	                console.log("errorThrown: ", errorThrown);
+	                alert("wrong username or password!");
+	            }
+	        });
+	    }
+	    function getNearestPlaces() {
+	        var Parent = document.getElementById("bar-list");
+
+	        //Get the locations from 4SQ and add them to the list
+
+	        var NewLI = document.createElement("LI");
+	        NewLI.setAttribute('data-theme', 'c');
+	        var link = document.createElement("a");
+	        link.setAttribute("href", "#beers")
+	        link.setAttribute("data-transition", "slide");
+	        var linkText = document.createTextNode("Bar 1");
+	        link.appendChild(linkText);
+
+	        NewLI.appendChild(link);
+	        Parent.appendChild(NewLI);
+
+	        NewLI = document.createElement("LI");
+	        NewLI.setAttribute('data-theme', 'c');
+	        link = document.createElement("a");
+	        link.setAttribute("href", "#beers")
+	        link.setAttribute("data-transition", "slide");
+	        linkText = document.createTextNode("Bar 2");
+	        link.appendChild(linkText);
+
+	        NewLI.appendChild(link);
+	        Parent.appendChild(NewLI);
+	    }
+	    function selectPlace() {
+	        // Update the beer list according to the selection
+	    }
+	    function checkIn() {
+	        alert("Done");
+	    }
+        </script>
+		<div data-role="page" data-theme="b" id="login">
+			<form>
+				<p>Username: <input type="text" name="username" id="username" size="25" required/></p>
+				<p>Password: <input type="password" name="password" id="password" size="25" required/></p>
+				<a onclick="login()" href="#bars" data-role="button">Login</a>
+			</form>
+		</div>
+        <div data-role="page" data-theme="b" id="bars">
+            <div data-theme="b" data-role="header">
+                <h3>
+                    Tap The Beer
+                </h3>
+            </div>
+            <div data-role="content">
+                <ul id="bar-list" data-role="listview" data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">
+                        Bars
+                    </li>
+                </ul>
+            </div>
+        </div>
+		<div data-role="page" data-theme="b" id="beers">
+			<div data-role="content">
+                <ul data-role="listview" data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">
+                        Beers
+                    </li>
+                    <li data-theme="c">
+                        <a href="#page1" onclick="checkIn()" data-transition="slide">
+                            Koff
+                        </a>
+                    </li>
+                    <li data-theme="c">
+                        <a href="#page1" data-transition="slide">
+                            Karjala
+                        </a>
+                    </li>
+                    <li data-theme="c">
+                        <a href="#page1" data-transition="slide">
+                            Poron kusi
+                        </a>
+                    </li>
+                    <li data-theme="c">
+                        <a href="#page1" data-transition="slide">
+                            Random
+                        </a>
+                    </li>
+                </ul>
+            </div>
+		</div>
+    </body>
+</html>

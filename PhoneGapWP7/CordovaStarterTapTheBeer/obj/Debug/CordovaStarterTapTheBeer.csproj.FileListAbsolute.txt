@@ -1,0 +1,14 @@
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\Bin\Debug\ApplicationIcon.png
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\Bin\Debug\Background.png
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\Bin\Debug\CordovaStarterTapTheBeer.dll
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\Bin\Debug\CordovaStarterTapTheBeer.pdb
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\Bin\Debug\AppManifest.xaml
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\Bin\Debug\CordovaStarterTapTheBeer.xap
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\Bin\Debug\WP7CordovaClassLib.dll
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\obj\Debug\ResolveAssemblyReference.cache
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\obj\Debug\App.g.i.cs
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\obj\Debug\MainPage.g.i.cs
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\obj\Debug\CordovaStarterTapTheBeer.g.resources
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\obj\Debug\CordovaStarterTapTheBeer.dll
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\obj\Debug\CordovaStarterTapTheBeer.pdb
+C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\obj\Debug\XapCacheFile.xml
