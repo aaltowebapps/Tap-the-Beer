@@ -25,6 +25,7 @@
                     beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Basic ' + authString); },
                     success: function (data) {
 						window.location = 'index.html#bars';
+						getNearestPlaces();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
@@ -34,6 +35,33 @@
                     }
                 });
             }
+			function getNearestPlaces() {
+				var Parent = document.getElementById("bar-list");
+				
+				//Get the locations from 4SQ and add them to the list
+				
+				var NewLI = document.createElement("LI");
+				NewLI.setAttribute('data-theme', 'c');
+				var link = document.createElement("a");
+				link.setAttribute("href", "#beers")
+				link.setAttribute("data-transition", "slide");
+				var linkText = document.createTextNode("Bar 1");
+				link.appendChild(linkText);
+
+				NewLI.appendChild(link);
+				Parent.appendChild(NewLI);
+				
+				var NewLI = document.createElement("LI");
+				NewLI.setAttribute('data-theme', 'c');
+				var link = document.createElement("a");
+				link.setAttribute("href", "#beers")
+				link.setAttribute("data-transition", "slide");
+				var linkText = document.createTextNode("Bar 2");
+				link.appendChild(linkText);
+
+				NewLI.appendChild(link);
+				Parent.appendChild(NewLI);
+			}
 		</script>
 		<div data-role="page" data-theme="b" id="login">
 			<form>
