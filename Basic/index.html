@@ -11,6 +11,29 @@
     </head>
     <body>
 		<script type="text/javascript">
+		    function login() {
+				jQuery.support.cors = true;
+				var username = document.getElementById('username').value;
+				var password = document.getElementById('password').value;
+                var key = '4fb77f74cefc1d0e9429091273114839';
+                var passwordHash = Crypto.MD5(password);
+                var authString = btoa(username + ':' + passwordHash);
+                $.ajax({
+                    url: 'http://api.untappd.com/v3/checkin_test?key=' + key,
+                    type: 'POST',
+                    dataType: 'json',
+                    beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Basic ' + authString); },
+                    success: function (data) {
+						window.location = 'index.html#bars';
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+						alert("wrong username or password!");
+                    }
+                });
+            }
 		</script>
 		<div data-role="page" data-theme="b" id="login">
 			<form>
