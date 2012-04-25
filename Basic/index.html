@@ -11,12 +11,12 @@
     </head>
     <body>
 		<script type="text/javascript">
-		    function login() {
+			function login() {
 				jQuery.support.cors = true;
 				var username = document.getElementById('username').value;
 				var password = document.getElementById('password').value;
-                var key = '4fb77f74cefc1d0e9429091273114839';
-                var passwordHash = Crypto.MD5(password);
+				var key = '4fb77f74cefc1d0e9429091273114839';
+				var passwordHash = Crypto.MD5(password);
                 var authString = btoa(username + ':' + passwordHash);
                 $.ajax({
                     url: 'http://api.untappd.com/v3/checkin_test?key=' + key,
@@ -24,46 +24,62 @@
                     dataType: 'json',
                     beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Basic ' + authString); },
                     success: function (data) {
-						window.location = 'index.html#bars';
 						getNearestPlaces();
+						window.location = 'index.html#bars';
+					},
+                    error: function (jqXHR, textStatus, errorThrown) {
+						getNearestPlaces();
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+						alert("wrong username or password!");
+						window.location = 'index.html#bars';
+                    }
+                });
+            }
+			function createLIElements(data){
+				var venues = data.response.venues;
+				var Parent = document.getElementById("bar-list");
+				for (var i = 0; i < venues.length; i++){
+					var venue = venues[i];
+					var NewLI = document.createElement("LI");
+					NewLI.setAttribute('data-theme', 'c');
+					var link = document.createElement("a");
+					link.setAttribute("href", "#beers")
+					link.setAttribute("data-transition", "slide");
+					link.setAttribute("onclick", 'selectPlace(' + venue.id ')');
+					var linkText = document.createTextNode(venue.name);
+					link.appendChild(linkText);
+					NewLI.appendChild(link);
+					Parent.appendChild(NewLI);
+				}
+			}
+			function foursquare() {
+				var latitude = '60.10';
+				var longitude = '24.57';
+				var foursquaretoken = '';
+				$.ajax({
+                    url: 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude + '&oauth_token=' + foursquaretoekn + '&v=20120425&limit=10',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+						createLIElements(data);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
                         console.log("textStatus: ", textStatus);
                         console.log("errorThrown: ", errorThrown);
-						alert("wrong username or password!");
+						alert("Something wrong on Foursquare!");
                     }
                 });
-            }
-			function getNearestPlaces() {
-				var Parent = document.getElementById("bar-list");
-				
-				//Get the locations from 4SQ and add them to the list
-				
-				var NewLI = document.createElement("LI");
-				NewLI.setAttribute('data-theme', 'c');
-				var link = document.createElement("a");
-				link.setAttribute("href", "#beers")
-				link.setAttribute("data-transition", "slide");
-				var linkText = document.createTextNode("Bar 1");
-				link.appendChild(linkText);
-
-				NewLI.appendChild(link);
-				Parent.appendChild(NewLI);
-				
-				var NewLI = document.createElement("LI");
-				NewLI.setAttribute('data-theme', 'c');
-				var link = document.createElement("a");
-				link.setAttribute("href", "#beers")
-				link.setAttribute("data-transition", "slide");
-				var linkText = document.createTextNode("Bar 2");
-				link.appendChild(linkText);
-
-				NewLI.appendChild(link);
-				Parent.appendChild(NewLI);
 			}
-			function selectPlace(){
-				// Update the beer list according to the selection
+			function getNearestPlaces() {
+				foursquare();
+			}
+			
+			function selectPlace(foursquareid){
+				//Request the untappd id based on foursquareid
+				//Update the beer list according to the selection
 			}
 			function checkIn(){
 				alert("Done");
@@ -87,6 +103,9 @@
                     <li data-role="list-divider" role="heading">
                         Bars
                     </li>
+					<li data-theme="c">
+						<a href="#beers" onclick="selectPlace(4b7c2f17f964a520c3822fe3)">Venture Garage</a>
+					</li>
                 </ul>
             </div>
         </div>
