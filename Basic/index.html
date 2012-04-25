@@ -47,7 +47,7 @@
 					var link = document.createElement("a");
 					link.setAttribute("href", "#beers")
 					link.setAttribute("data-transition", "slide");
-					link.setAttribute("onclick", 'selectPlace(' + venue.id ')');
+					link.setAttribute('onclick', 'selectPlace("' + venue.id + '")');
 					var linkText = document.createTextNode(venue.name);
 					link.appendChild(linkText);
 					NewLI.appendChild(link);
@@ -59,7 +59,7 @@
 				var longitude = '24.57';
 				var foursquaretoken = '';
 				$.ajax({
-                    url: 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude + '&oauth_token=' + foursquaretoekn + '&v=20120425&limit=10',
+                    url: 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude + '&oauth_token=' + foursquaretoken + '&v=20120425&limit=10',
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
@@ -78,6 +78,7 @@
 			}
 			
 			function selectPlace(foursquareid){
+				alert(foursquareid);
 				//Request the untappd id based on foursquareid
 				//Update the beer list according to the selection
 			}
@@ -104,7 +105,7 @@
                         Bars
                     </li>
 					<li data-theme="c">
-						<a href="#beers" onclick="selectPlace(4b7c2f17f964a520c3822fe3)">Venture Garage</a>
+						<a href="#beers" onclick="selectPlace('4b7c2f17f964a520c3822fe3')">Venture Garage</a>
 					</li>
                 </ul>
             </div>
