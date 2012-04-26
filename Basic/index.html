@@ -25,7 +25,8 @@
                     beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Basic ' + authString); },
                     success: function (data) {
 						getNearestPlaces();
-						window.location = 'index.html#bars';
+						$.mobile.changePage('index.html#bars');
+						//window.location = 'index.html#bars';
 					},
                     error: function (jqXHR, textStatus, errorThrown) {
 						getNearestPlaces();
@@ -33,7 +34,6 @@
                         console.log("textStatus: ", textStatus);
                         console.log("errorThrown: ", errorThrown);
 						alert("wrong username or password!");
-						window.location = 'index.html#bars';
                     }
                 });
             }
@@ -47,12 +47,13 @@
 					var link = document.createElement("a");
 					link.setAttribute("href", "#beers")
 					link.setAttribute("data-transition", "slide");
-					link.setAttribute('onclick', 'selectPlace("' + venue.id + '")');
+					link.setAttribute('onclick', "selectPlace('" + venue.id + "')");
 					var linkText = document.createTextNode(venue.name);
 					link.appendChild(linkText);
 					NewLI.appendChild(link);
 					Parent.appendChild(NewLI);
 				}
+				$('.bar-list').listview('refresh');
 			}
 			function foursquare() {
 				var latitude = '60.10';
@@ -100,7 +101,7 @@
                 </h3>
             </div>
             <div data-role="content">
-                <ul id="bar-list" data-role="listview" data-divider-theme="b" data-inset="true">
+                <ul class="bar-list" id="bar-list" data-role="listview" data-divider-theme="b" data-inset="true">
                     <li data-role="list-divider" role="heading">
                         Bars
                     </li>
