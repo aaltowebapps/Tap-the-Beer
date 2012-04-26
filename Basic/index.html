@@ -58,7 +58,7 @@
 			function foursquare() {
 				var latitude = '60.10';
 				var longitude = '24.57';
-				var foursquaretoken = '';
+				var foursquaretoken = 'UIUZYSBLLLAQT3MDPJVAVQQRGPOXPC4RADEYCUM3NSSIXZTJ';
 				$.ajax({
                     url: 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude + '&oauth_token=' + foursquaretoken + '&v=20120425&limit=10',
                     type: 'GET',
@@ -79,9 +79,41 @@
 			}
 			
 			function selectPlace(foursquareid){
+				var key = '4fb77f74cefc1d0e9429091273114839';
+				$.ajax({
+					url: 'http://api.untappd.com/v3/foursquare_lookup?key=' + key +'&vid=' + foursquareid,
+					type: 'GET',
+					dataType: 'json',
+					success: function (data) {
+						getBeers(data.results.untappd_venue_id);
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+						alert("Something wrong on Untappd!");
+                    }
+				});
 				alert(foursquareid);
 				//Request the untappd id based on foursquareid
 				//Update the beer list according to the selection
+			}
+			function getBeers(pubId){
+				$.ajax({
+					url: 'http://mike.at.hammerkit.com/TapTheBeer/BeerAtPub?PubId=' + pubId,
+					type: 'GET',
+					dataType: 'json',
+					success: function (data) {
+						alert("Success");
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+						alert("Something wrong on Hammerkit!");
+                    }
+				});
+				
 			}
 			function checkIn(){
 				alert("Done");
