@@ -11,22 +11,24 @@
     </head>
     <body>
 		<script type="text/javascript">
+			var untapddKey = '4fb77f74cefc1d0e9429091273114839';
+			var authString = '';
+			var latitude = '';
+			var longitude = '';
+			var foursquareId = '';
 			function login() {
 				jQuery.support.cors = true;
 				var username = document.getElementById('username').value;
-				var password = document.getElementById('password').value;
-				var key = '4fb77f74cefc1d0e9429091273114839';
-				var passwordHash = Crypto.MD5(password);
-                var authString = btoa(username + ':' + passwordHash);
+				var passwordHash = Crypto.MD5(document.getElementById('password').value);
+                authString = btoa(username + ':' + passwordHash);
                 $.ajax({
-                    url: 'http://api.untappd.com/v3/checkin_test?key=' + key,
+                    url: 'http://api.untappd.com/v3/checkin_test?key=' + untapddKey,
                     type: 'POST',
                     dataType: 'json',
                     beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Basic ' + authString); },
                     success: function (data) {
 						getNearestPlaces();
 						$.mobile.changePage('index.html#bars');
-						//window.location = 'index.html#bars';
 					},
                     error: function (jqXHR, textStatus, errorThrown) {
 						getNearestPlaces();
@@ -55,9 +57,26 @@
 				}
 				$('.bar-list').listview('refresh');
 			}
-			function foursquare() {
-				var latitude = '60.10';
-				var longitude = '24.57';
+			function createLIElementsForBeers(data){
+				var beers = data.BeersAtPub[0];
+				var Parent = document.getElementById("beer-list");
+				for (var i = 0; i < beers.length; i++){
+					var beer = beers[i];
+					var NewLI = document.createElement("LI");
+					NewLI.setAttribute('data-theme', 'c');
+					var link = document.createElement("a");
+					link.setAttribute("href", "#checkin");
+					link.setAttribute("data-transition", "slide");
+					link.setAttribute('onclick', "checkIn('" + beer.BeerId + "')");
+					var linkText = document.createTextNode(beer.BeerName);
+					link.appendChild(linkText);
+					NewLI.appendChild(link);
+					Parent.appendChild(NewLI);
+				}
+				$('.beer-list').listview('refresh');
+			}
+			function foursquare(latitude, longitude) {
+
 				var foursquaretoken = 'UIUZYSBLLLAQT3MDPJVAVQQRGPOXPC4RADEYCUM3NSSIXZTJ';
 				$.ajax({
                     url: 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude + '&oauth_token=' + foursquaretoken + '&v=20120425&limit=10',
@@ -75,13 +94,16 @@
                 });
 			}
 			function getNearestPlaces() {
-				foursquare();
+				latitude = '60.10';
+				longitude = '24.57';
+				//These should be retrieved from GPS
+				foursquare(latitude, longitude);
 			}
 			
 			function selectPlace(foursquareid){
-				var key = '4fb77f74cefc1d0e9429091273114839';
+				foursquareId = foursquareid;
 				$.ajax({
-					url: 'http://api.untappd.com/v3/foursquare_lookup?key=' + key +'&vid=' + foursquareid,
+					url: 'http://api.untappd.com/v3/foursquare_lookup?key=' + untapddKey +'&vid=' + foursquareid,
 					type: 'GET',
 					dataType: 'json',
 					success: function (data) {
@@ -94,9 +116,6 @@
 						alert("Something wrong on Untappd!");
                     }
 				});
-				alert(foursquareid);
-				//Request the untappd id based on foursquareid
-				//Update the beer list according to the selection
 			}
 			function getBeers(pubId){
 				$.ajax({
@@ -104,7 +123,7 @@
 					type: 'GET',
 					dataType: 'json',
 					success: function (data) {
-						alert("Success");
+						createLIElementsForBeers(data);
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
@@ -115,8 +134,30 @@
 				});
 				
 			}
-			function checkIn(){
-				alert("Done");
+			function checkIn(beerID){
+				$.ajax({
+                    url: 'http://api.untappd.com/v3/checkin?key=' + untapddKey,
+                    type: 'POST',
+                    dataType: 'json',
+                    beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Basic ' + authString); },
+					data: { 
+						bid: beerID,
+						gmt_offset: +2.00,
+						foursquare_id: foursquareId,
+						user_lat: latitude,
+						user_lng: longitude
+					},
+                    success: function (data) {
+						alert(data);
+					},
+                    error: function (jqXHR, textStatus, errorThrown) {
+						getNearestPlaces();
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+						alert("wrong username or password!");
+                    }
+                });
 			}
 		</script>
 		<div data-role="page" data-theme="b" id="login">
@@ -145,29 +186,18 @@
         </div>
 		<div data-role="page" data-theme="b" id="beers">
 			<div data-role="content">
-                <ul data-role="listview" data-divider-theme="b" data-inset="true">
+                <ul class="beer-list" id="beer-list" data-role="listview" data-divider-theme="b" data-inset="true">
                     <li data-role="list-divider" role="heading">
                         Beers
                     </li>
-                    <li data-theme="c">
-                        <a href="#page1" onclick="checkIn()" data-transition="slide">
-                            Koff
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Karjala
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Poron kusi
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Random
-                        </a>
+                </ul>
+            </div>
+		</div>
+		<div data-role="page" data-theme="b" id="checkin">
+			<div data-role="content">
+                <ul class="recommendation-list" id="recommendation-list" data-role="listview" data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">
+                        Recommendations
                     </li>
                 </ul>
             </div>
