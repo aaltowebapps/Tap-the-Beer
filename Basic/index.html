@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 0.0.4</title>
+        <title>Tap The Beer 0.0.6</title>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css"
         />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
@@ -87,8 +87,7 @@
             }
 			 
             function foursquare(latitude, longitude) {
-                var foursquaretoken = 'UIUZYSBLLLAQT3MDPJVAVQQRGPOXPC4RADEYCUM3NSSIXZTJ';
-				var URL = 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude + '&oauth_token=' + foursquaretoken + '&v=20120425&limit=10';
+				var URL = 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude + '&client_id=VC4WFQ3EIUDZO2KVE4YS5KHJEZNJ13Y1X1EVALJWLLLBWZGS&client_secret=XFPMQ3IAUMVQFU31PNGE4RMBWUOUJ452LNP1M4D53ZAS4TRQ&v=20120425&limit=10';
                 $.ajax({
                     url: 'http://www.tapthebeer.com/index/19?URL=' + URL,
                     type: 'GET',
@@ -132,7 +131,7 @@
 
             function getBeers(pubId) {
                 $.ajax({
-                    url: 'http://mike.at.hammerkit.com/TapTheBeer/BeerAtPub?PubId=' + pubId,
+                    url: 'http://www.tapthebeer.com/BeerAtPub?PubId=' + pubId,
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
