@@ -1,129 +1,225 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
+    
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>
-        </title>
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
-        <style>
-            /* App custom styles */
-        </style>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js">
-        </script>
-        <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js">
-        </script>
+        <title>Tap The Beer 0.0.13</title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css"
+        />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+        <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
+		<style type="text/css">
+			form {
+				padding-left:20px;
+				width:98%;
+			}
+		</style>
     </head>
+    
     <body>
-        <div data-role="page" data-theme="b" id="page1">
+        <script type="text/javascript">
+			jQuery.support.cors = true; 
+            var authString = '';
+            var latitude = '';
+            var longitude = '';
+            var foursquareId = '';
+            function login() {
+                var username = document.getElementById('username').value;
+                var passwordHash = Crypto.MD5(document.getElementById('password').value);
+                authString = 'Basic ' + btoa(username + ':' + passwordHash);
+				$.ajax({
+					url: 'http://www.tapthebeer.com/index/24?AuthString=' + authString,
+					type: 'GET',
+					dataType: 'json',
+					success: function (data) {
+						getNearestPlaces();
+                        $.mobile.changePage('#bars');
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("wrong username or password!");
+                    }
+				});
+            }
+			
+            function createLIElements(data) {
+                var venues = data.response.venues;
+                var Parent = document.getElementById("bar-list");
+                for (var i = 0; i < venues.length; i++) {
+                    var venue = venues[i];
+                    var NewLI = document.createElement("LI");
+                    NewLI.setAttribute('data-theme', 'c');
+                    var link = document.createElement("a");
+                    link.setAttribute("href", "#beers")
+                    link.setAttribute("data-transition", "slide");
+                    link.setAttribute('onclick', "selectPlace('" + venue.id + "')");
+                    var linkText = document.createTextNode(venue.name);
+                    link.appendChild(linkText);
+                    NewLI.appendChild(link);
+                    Parent.appendChild(NewLI);
+                }
+                $(Parent).listview('refresh');
+            }
+
+            function createLIElementsForBeers(data) {
+                var beers = data.BeersAtPub[0];
+                var Parent = document.getElementById("beer-list");
+                for (var i = 0; i < beers.length; i++) {
+                    var beer = beers[i];
+                    var NewLI = document.createElement("LI");
+                    NewLI.setAttribute('data-theme', 'c');
+                    var link = document.createElement("a");
+                    link.setAttribute("href", "#checkin");
+                    link.setAttribute("data-transition", "slide");
+                    link.setAttribute('onclick', "checkIn('" + beer.BeerId + "')");
+                    var linkText = document.createTextNode(beer.BeerName);
+                    link.appendChild(linkText);
+                    NewLI.appendChild(link);
+                    Parent.appendChild(NewLI);
+                }
+                $(Parent).listview('refresh');
+            }
+			 
+            function foursquare(latitude, longitude) {
+				var location = latitude + ',' + longitude;
+                $.ajax({
+                    url: 'http://www.tapthebeer.com/index/19',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        createLIElements(data);
+                    },
+					data: {
+						link: location
+					},
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Something wrong on Foursquare!");
+                    }
+                });
+            }
+
+            function getNearestPlaces() {
+                latitude = '60.10';
+                longitude = '24.57';
+                //These should be retrieved from GPS
+                foursquare(latitude, longitude);
+            }
+
+            function selectPlace(foursquareid) {
+                foursquareId = foursquareid;
+                $.ajax({
+                    url: 'http://www.tapthebeer.com/index/22',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        getBeers(data.results.untappd_venue_id);
+                    },
+					data: {
+						link: foursquareId
+					},
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Something wrong on Untappd!");
+                    }
+                });
+            }
+
+            function getBeers(pubId) {
+                $.ajax({
+                    url: 'http://www.tapthebeer.com/BeerAtPub?PubId=' + pubId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        createLIElementsForBeers(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Something wrong on Hammerkit!");
+                    }
+                });
+
+            }
+
+            function checkIn(beerID) {
+                $.ajax({
+                    url: 'http://www.tapthebeer.com/index/18',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        bid: beerID,
+                        gmt_offset: +2.00,
+                        foursquare_id: foursquareId,
+                        user_lat: latitude,
+                        user_lng: longitude,
+						AuthString: authString
+                    },
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        getNearestPlaces();
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Something bad happened!");
+                    }
+                });
+            }
+        </script>
+        <div data-role="page" data-theme="b" id="login">
+            <form>
+                <p>Username:
+                    <input type="text" name="username" id="username" size="25" required/>
+                </p>
+                <p>Password:
+                    <input type="password" name="password" id="password" size="25"
+                    required/>
+                </p>
+                <a onclick="login()" href="#" data-role="button">Login</a>
+            </form>
+        </div>
+        <div data-role="page" data-theme="b" id="bars">
             <div data-theme="b" data-role="header">
-                <h3>
-                    Tap The Beer
-                </h3>
-                <div data-role="navbar" data-iconpos="top">
-                    <ul>
-                        <li>
-                            <a href="#page1" data-theme="" data-icon="" class="ui-btn-active">
-                                Bar
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#page2" data-theme="b" data-icon="">
-                                Beer
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#page1" data-theme="b" data-icon="">
-                                Checkin
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <h3>Tap The Beer</h3>
             </div>
             <div data-role="content">
-                <ul data-role="listview" data-divider-theme="b" data-inset="true">
-                    <li data-role="list-divider" role="heading">
-                        Bars
-                    </li>
+                <ul class="bar-list" id="bar-list" data-role="listview" data-divider-theme="b"
+                data-inset="true">
+                    <li data-role="list-divider" role="heading">Bars</li>
                     <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Bar 1
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Bar 2
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Bar 3
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Locate the bar
-                        </a>
+                        <a href="#beers" onclick="selectPlace('4b7c2f17f964a520c3822fe3')">Venture Garage</a>
                     </li>
                 </ul>
             </div>
         </div>
-		<div data-role="page" data-theme="b" id="page2">
-            <div data-theme="b" data-role="header">
-                <h3>
-                    Tap The Beer
-                </h3>
-                <div data-role="navbar" data-iconpos="top">
-                    <ul>
-                        <li>
-                            <a href="#page1" data-theme="" data-icon="" class="ui-btn-active">
-                                Bar
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#page2" data-theme="b" data-icon="">
-                                Beer
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#page1" data-theme="b" data-icon="">
-                                Checkin
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div> 
-        
-		<div data-role="content">
-                <ul data-role="listview" data-divider-theme="b" data-inset="true">
-                    <li data-role="list-divider" role="heading">
-                        Beers
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Koff
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Karjala
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Poron kusi
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Random
-                        </a>
-                    </li>
+        <div data-role="page" data-theme="b" id="beers">
+            <div data-role="content">
+                <ul class="beer-list" id="beer-list" data-role="listview" data-divider-theme="b"
+                data-inset="true">
+                    <li data-role="list-divider" role="heading">Beers</li>
+                </ul>
+				<a onclick="searchBeer()" href="#" data-role="button">Search</a>
+            </div>
+        </div>
+        <div data-role="page" data-theme="b" id="checkin">
+            <div data-role="content">
+                <ul class="recommendation-list" id="recommendation-list" data-role="listview"
+                data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">Recommendations</li>
                 </ul>
             </div>
-		</div>
-        <script>
-            //App custom javascript
-        </script>
+        </div>
     </body>
+
 </html>
