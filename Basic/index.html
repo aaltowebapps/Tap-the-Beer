@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 0.0.9</title>
+        <title>Tap The Beer 0.0.10</title>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css"
         />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
@@ -21,7 +21,6 @@
     <body>
         <script type="text/javascript">
 			jQuery.support.cors = true; 
-            var untapddKey = '4fb77f74cefc1d0e9429091273114839';
             var authString = '';
             var latitude = '';
             var longitude = '';
@@ -116,12 +115,15 @@
             function selectPlace(foursquareid) {
                 foursquareId = foursquareid;
                 $.ajax({
-                    url: 'http://api.untappd.com/v3/foursquare_lookup?key=' + untapddKey + '&vid=' + foursquareid,
-                    type: 'GET',
+                    url: 'http://www.tapthebeer.com/index/22',
+                    type: 'POST',
                     dataType: 'json',
                     success: function (data) {
                         getBeers(data.results.untappd_venue_id);
                     },
+					data: {
+						link: foursquareId;
+					},
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
                         console.log("textStatus: ", textStatus);
