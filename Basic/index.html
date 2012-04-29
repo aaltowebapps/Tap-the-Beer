@@ -25,33 +25,29 @@
             var latitude = '';
             var longitude = '';
             var foursquareId = '';
-
+			//AuthString
             function login() {
                 jQuery.support.cors = true;
                 var username = document.getElementById('username').value;
                 var passwordHash = Crypto.MD5(document.getElementById('password').value);
                 authString = btoa(username + ':' + passwordHash);
-                $.ajax({
-                    url: 'http://api.untappd.com/v3/checkin_test?key=' + untapddKey,
-                    type: 'POST',
-                    dataType: 'json',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 'Basic ' + authString);
-                    },
-                    success: function (data) {
-                        getNearestPlaces();
-                        $.mobile.changePage('index.html#bars');
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        getNearestPlaces();
+				$.ajax({
+					url: 'http://www.tapthebeer.com/index/18?AuthString=' + authString,
+					type: 'GET',
+					timeout: 30000,
+					dataType: 'json',
+					sucess: function (data) {
+						alert(data);
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
                         console.log("textStatus: ", textStatus);
                         console.log("errorThrown: ", errorThrown);
                         alert("wrong username or password!");
                     }
-                });
+				});
             }
-
+			
             function createLIElements(data) {
                 var venues = data.response.venues;
                 var Parent = document.getElementById("bar-list");
@@ -68,7 +64,7 @@
                     NewLI.appendChild(link);
                     Parent.appendChild(NewLI);
                 }
-                $('.bar-list').listview('refresh');
+                $(Parent).listview('refresh');
             }
 
             function createLIElementsForBeers(data) {
@@ -87,11 +83,10 @@
                     NewLI.appendChild(link);
                     Parent.appendChild(NewLI);
                 }
-                $('.beer-list').listview('refresh');
+                $(Parent).listview('refresh');
             }
-
+			 
             function foursquare(latitude, longitude) {
-
                 var foursquaretoken = 'UIUZYSBLLLAQT3MDPJVAVQQRGPOXPC4RADEYCUM3NSSIXZTJ';
                 $.ajax({
                     url: 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude + '&oauth_token=' + foursquaretoken + '&v=20120425&limit=10',
@@ -212,6 +207,7 @@
                 data-inset="true">
                     <li data-role="list-divider" role="heading">Beers</li>
                 </ul>
+				<a onclick="searchBeer()" href="#" data-role="button">Search</a>
             </div>
         </div>
         <div data-role="page" data-theme="b" id="checkin">
