@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 0.0.8</title>
+        <title>Tap The Beer 0.0.9</title>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css"
         />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
@@ -86,7 +86,7 @@
             }
 			 
             function foursquare(latitude, longitude) {
-				var URL = 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude + '&client_id=VC4WFQ3EIUDZO2KVE4YS5KHJEZNJ13Y1X1EVALJWLLLBWZGS&client_secret=XFPMQ3IAUMVQFU31PNGE4RMBWUOUJ452LNP1M4D53ZAS4TRQ&v=20120425&limit=10';
+				var location = latitude + ',' + longitude;
                 $.ajax({
                     url: 'http://www.tapthebeer.com/index/19',
                     type: 'POST',
@@ -95,7 +95,7 @@
                         createLIElements(data);
                     },
 					data: {
-						link: URL
+						link: location
 					},
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
