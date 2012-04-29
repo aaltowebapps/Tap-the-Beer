@@ -27,7 +27,6 @@
             var foursquareId = '';
 			//AuthString
             function login() {
-                jQuery.support.cors = true;
                 var username = document.getElementById('username').value;
                 var passwordHash = Crypto.MD5(document.getElementById('password').value);
                 authString = btoa(username + ':' + passwordHash);
