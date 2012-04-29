@@ -32,11 +32,12 @@
                 authString = btoa(username + ':' + passwordHash);
 				alert("Creating request");
 				$.ajax({
-					url: '/index/18?AuthString=Basic ' + authString,
+					url: 'http://www.tapthebeer.com/index/18?AuthString=Basic ' + authString,
 					type: 'GET',
 					dataType: 'json',
-					sucess: function (data) {
-						alert("test");
+					success: function (data) {
+						getNearestPlaces();
+                        $.mobile.changePage('index.html#bars');
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
@@ -87,8 +88,9 @@
 			 
             function foursquare(latitude, longitude) {
                 var foursquaretoken = 'UIUZYSBLLLAQT3MDPJVAVQQRGPOXPC4RADEYCUM3NSSIXZTJ';
+				var URL = 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude + '&oauth_token=' + foursquaretoken + '&v=20120425&limit=10';
                 $.ajax({
-                    url: 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude + '&oauth_token=' + foursquaretoken + '&v=20120425&limit=10',
+                    url: 'http://www.tapthebeer.com/index/19?URL=' + URL,
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
