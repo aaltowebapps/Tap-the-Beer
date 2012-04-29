@@ -20,6 +20,7 @@
     
     <body>
         <script type="text/javascript">
+			jQuery.support.cors = true; 
             var untapddKey = '4fb77f74cefc1d0e9429091273114839';
             var authString = '';
             var latitude = '';
@@ -29,11 +30,12 @@
                 var username = document.getElementById('username').value;
                 var passwordHash = Crypto.MD5(document.getElementById('password').value);
                 authString = btoa(username + ':' + passwordHash);
+				alert("Creating request");
 				$.ajax({
-					url: 'http://www.tapthebeer.com/index/18?AuthString=' + authString,
+					url: '/index/18?AuthString=Basic ' + authString,
 					type: 'GET',
-					timeout: 30000,
-					sucess: function () {
+					dataType: 'json',
+					sucess: function (data) {
 						alert("test");
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
