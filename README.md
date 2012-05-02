@@ -1,3 +1,6 @@
+Open http://www.tapthebeer.com, login with your untappd credentials
+
+
 Testing application with chrome:
 
 1: open cmd line
