@@ -9,4 +9,4 @@ Testing application with chrome:
 
 The 1st page is asking login. That login means your untappd.com account
 
-The page now really sents your checkin into the untappd.com.
+The page now really sends your checkin to untappd.com.
