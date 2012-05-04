@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 0.0.14</title>
+        <title>Tap The Beer 0.0.15</title>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css"
         />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
@@ -175,6 +175,11 @@
                 });
             }
 			
+			function searchBeer(){
+				var $beerName = document.getElementById('beerName').value;
+				untappdBeerSearch($beerName);
+			}
+			
 			function untappdBeerSearch(searchString){
 				$.ajax({
                     url: 'http://www.tapthebeer.com/index/25',
@@ -246,17 +251,18 @@
 				<a href="#addBeer" data-rel="dialog" data-transition="pop" data-role="button">Search</a>
             </div>
         </div>
-		<div data-role="page" data-theme="b" id="addBeer">
-            <div data-role="content">
-				<a onclick="searchBeer()" href="#" data-role="button">Search</a>
-            </div>
-        </div>
         <div data-role="page" data-theme="b" id="checkin">
             <div data-role="content">
                 <ul class="recommendation-list" id="recommendation-list" data-role="listview"
                 data-divider-theme="b" data-inset="true">
                     <li data-role="list-divider" role="heading">Recommendations</li>
                 </ul>
+            </div>
+        </div>
+		<div data-role="popup" data-theme="b" id="addBeer">
+            <div data-role="content">
+				Beer name: <input id="beerName" type="textbox" value="Type something"></input>
+				<a onclick="searchBeer()" href="#" data-role="button">Search</a>
             </div>
         </div>
     </body>
