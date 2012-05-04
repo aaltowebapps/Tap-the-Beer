@@ -165,17 +165,52 @@
 						AuthString: authString
                     },
                     success: function (data) {
-                        alert(data);
+                        alert("Checkin succeeded");
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        getNearestPlaces();
                         console.log("jqXHR: ", jqXHR);
                         console.log("textStatus: ", textStatus);
                         console.log("errorThrown: ", errorThrown);
-                        alert("Something bad happened!");
+                        alert("Checkin failed!");
                     }
                 });
             }
+			
+			function untappdBeerSearch(searchString){
+				$.ajax({
+                    url: 'http://www.tapthebeer.com/index/25',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        q: searchString,
+						AuthString: authString
+                    },
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Untappd isn't working!");
+                    }
+                });
+			}
+			function addBeer(){
+				$.ajax({
+                    url: 'http://www.tapthebeer.com/addBeerAtPub?untappdLocId=&FoursuqareLocId=&Name=&BeerId=&=BeerName=',
+                    type: 'GET',
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Untappd isn't working!");
+                    }
+                });
+			}
         </script>
         <div data-role="page" data-theme="b" id="login">
             <form>
