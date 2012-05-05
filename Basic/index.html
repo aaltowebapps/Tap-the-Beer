@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 0.0.16</title>
+        <title>Tap The Beer 0.0.17</title>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css"
         />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
@@ -24,6 +24,8 @@
             var latitude = '';
             var longitude = '';
             var foursquareId = '';
+			var venueName = '';
+			var venueId = '';
             function login() {
                 var username = document.getElementById('username').value;
                 var passwordHash = Crypto.MD5(document.getElementById('password').value);
@@ -55,7 +57,7 @@
                     var link = document.createElement("a");
                     link.setAttribute("href", "#beers")
                     link.setAttribute("data-transition", "slide");
-                    link.setAttribute('onclick', "selectPlace('" + venue.id + "')");
+                    link.setAttribute('onclick', "selectPlace('" + venue.id + "','" + venue.name + "')");
                     var linkText = document.createTextNode(venue.name);
                     link.appendChild(linkText);
                     NewLI.appendChild(link);
@@ -90,9 +92,9 @@
                     var NewLI = document.createElement("LI");
                     NewLI.setAttribute('data-theme', 'c');
                     var link = document.createElement("a");
-                    link.setAttribute("href", "#checkin");
+                    link.setAttribute("href", "#beers");
                     link.setAttribute("data-transition", "slide");
-                    //link.setAttribute('onclick', "checkIn('" + beer.BeerId + "')");
+                    link.setAttribute('onclick', "addBeer('" + beer.beer_id + "','" + beer.beer_name + "')");
                     var linkText = document.createTextNode(beer.beer_name);
                     link.appendChild(linkText);
                     NewLI.appendChild(link);
@@ -129,8 +131,9 @@
                 foursquare(latitude, longitude);
             }
 
-            function selectPlace(foursquareid) {
+            function selectPlace(foursquareid, venuename) {
                 foursquareId = foursquareid;
+				venueName = venuename;
                 $.ajax({
                     url: 'http://www.tapthebeer.com/index/22',
                     type: 'POST',
@@ -151,6 +154,7 @@
             }
 
             function getBeers(pubId) {
+				venueId = pubId;
                 $.ajax({
                     url: 'http://www.tapthebeer.com/BeerAtPub?PubId=' + pubId,
                     type: 'GET',
@@ -218,12 +222,12 @@
                     }
                 });
 			}
-			function addBeer(){
+			function addBeer(beerid, beername){
 				$.ajax({
-                    url: 'http://www.tapthebeer.com/addBeerAtPub?untappdLocId=&FoursuqareLocId=&Name=&BeerId=&=BeerName=',
+                    url: 'http://www.tapthebeer.com/addBeerAtPub?untappdLocId=' + venueId + '&FoursuqareLocId=' + foursquareId + '&Name=' + venueName + '&BeerId=' + beerid + '&BeerName=' + beername,
                     type: 'GET',
                     success: function (data) {
-                        alert(data);
+                        selectPlace(foursquareId, venueName);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
