@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 1.0.0</title>
+        <title>Tap The Beer 1.0.1</title>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css"
         />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
@@ -70,6 +70,11 @@
                 var beers = data.BeersAtPub[0];
                 var Parent = document.getElementById("beer-list");
 				$(Parent).empty();
+				var divider = document.createElement("LI");
+				divider.setAttribute('data-role', 'list-divider');
+				divider.setAttribute('role','heading');
+				divider.text = 'Beers';
+				Parent.appendChild(divider);
                 for (var i = 0; i < beers.length; i++) {
                     var beer = beers[i];
                     var NewLI = document.createElement("LI");
@@ -89,6 +94,10 @@
 			function createLIElementsForBeerSearch(data){
 				var Parent = document.getElementById("beerSearch-list");
 				$(Parent).empty();
+				var divider = document.createElement("LI");
+				divider.setAttribute('data-role', 'list-divider');
+				divider.setAttribute('role','heading');
+				divider.text = 'Beers found';
 				for (var i = 0; i < data.length; i++){
 					var beer = data[i];
                     var NewLI = document.createElement("LI");
