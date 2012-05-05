@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 1.0.4</title>
+        <title>Tap The Beer 1.0.6</title>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
         <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
@@ -51,7 +51,7 @@
                     dataType: 'json',
                     success: function (data) {
                         getNearestPlaces();
-                        $.mobile.changePage('#bars');
+                        $.mobile.changePage($('#bars'));
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
