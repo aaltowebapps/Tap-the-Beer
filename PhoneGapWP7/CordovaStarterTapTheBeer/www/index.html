@@ -1,125 +1,314 @@
 ﻿<!DOCTYPE html>
 <html>
+    
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer</title>
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
-		<script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
+        <title>Tap The Beer 1.0.4</title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css"
+        />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+        <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
+		<style type="text/css">
+			form {
+				padding-left:20px;
+				width:98%;
+			}
+		</style>
 		<script type="text/javascript" charset="utf-8" src="cordova-1.6.1.js"></script>
     </head>
+    
     <body>
-	<script type="text/javascript">
-	    function login() {
-	        jQuery.support.cors = true;
-	        var username = document.getElementById('username').value;
-	        var password = document.getElementById('password').value;
-	        var key = '4fb77f74cefc1d0e9429091273114839';
-	        var passwordHash = Crypto.MD5(password);
-	        var authString = btoa(username + ':' + passwordHash);
-	        $.ajax({
-	            url: 'http://api.untappd.com/v3/checkin_test?key=' + key,
-	            type: 'POST',
-	            dataType: 'json',
-	            beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Basic ' + authString); },
-	            success: function (data) {
-	                alert("Test");
-	                window.location = 'index.html#bars';
-	                getNearestPlaces();
-	            },
-	            error: function (jqXHR, textStatus, errorThrown) {
-	                console.log("jqXHR: ", jqXHR);
-	                console.log("textStatus: ", textStatus);
-	                console.log("errorThrown: ", errorThrown);
-	                alert("wrong username or password!");
-	            }
-	        });
-	    }
-	    function getNearestPlaces() {
-	        var Parent = document.getElementById("bar-list");
+        <script type="text/javascript"> 
+            var authString = '';
+            var latitude = '';
+            var longitude = '';
+            var foursquareId = '';
+			var venueName = '';
+			var venueId = '';
+            function login() {
+                var username = document.getElementById('username').value;
+                var passwordHash = Crypto.MD5(document.getElementById('password').value);
+                authString = 'Basic ' + btoa(username + ':' + passwordHash);
+				$.ajax({
+					url: 'http://www.tapthebeer.com/index/24?AuthString=' + authString,
+					type: 'GET',
+					dataType: 'json',
+					success: function (data) {
+						getNearestPlaces();
+                        $.mobile.changePage('#bars');
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("wrong username or password!");
+                    }
+				});
+            }
+			
+            function createLIElements(data) {
+                var venues = data.response.venues;
+                var Parent = document.getElementById("bar-list");
+                for (var i = 0; i < venues.length; i++) {
+                    var venue = venues[i];
+                    var NewLI = document.createElement("LI");
+                    NewLI.setAttribute('data-theme', 'c');
+                    var link = document.createElement("a");
+                    link.setAttribute("href", "#beers")
+                    link.setAttribute("data-transition", "slide");
+                    link.setAttribute('onclick', "selectPlace('" + venue.id + "','" + venue.name + "')");
+                    var linkText = document.createTextNode(venue.name);
+                    link.appendChild(linkText);
+                    NewLI.appendChild(link);
+                    Parent.appendChild(NewLI);
+                }
+                $(Parent).listview('refresh');
+            }
 
-	        //Get the locations from 4SQ and add them to the list
+            function createLIElementsForBeers(data) {
+                var beers = data.BeersAtPub[0];
+                var Parent = document.getElementById("beer-list");
+				$(Parent).empty();
+				var divider = document.createElement("LI");
+				divider.setAttribute('data-role', 'list-divider');
+				divider.setAttribute('role','heading');
+				var dividerText = document.createTextNode('Beers');
+				divider.appendChild(dividerText);
+				Parent.appendChild(divider);
+                for (var i = 0; i < beers.length; i++) {
+                    var beer = beers[i];
+                    var NewLI = document.createElement("LI");
+                    NewLI.setAttribute('data-theme', 'c');
+                    var link = document.createElement("a");
+                    link.setAttribute("href", "#checkin");
+                    link.setAttribute("data-transition", "slide");
+                    link.setAttribute('onclick', "checkIn('" + beer.BeerId + "')");
+                    var linkText = document.createTextNode(beer.BeerName);
+                    link.appendChild(linkText);
+                    NewLI.appendChild(link);
+                    Parent.appendChild(NewLI);
+                }
+                $(Parent).listview('refresh');
+            }
+			
+			function createLIElementsForBeerSearch(data){
+				var Parent = document.getElementById("beerSearch-list");
+				$(Parent).empty();
+				var divider = document.createElement("LI");
+				divider.setAttribute('data-role', 'list-divider');
+				divider.setAttribute('role','heading');
+				var dividerText = document.createTextNode('Beers found');
+				divider.appendChild(dividerText);
+				Parent.appendChild(divider);
+				for (var i = 0; i < data.length; i++){
+					var beer = data[i];
+                    var NewLI = document.createElement("LI");
+                    NewLI.setAttribute('data-theme', 'c');
+                    var link = document.createElement("a");
+                    link.setAttribute("href", "#beers");
+                    link.setAttribute("data-transition", "slide");
+                    link.setAttribute('onclick', "addBeer('" + beer.beer_id + "','" + beer.beer_name + "')");
+                    var linkText = document.createTextNode(beer.beer_name);
+                    link.appendChild(linkText);
+                    NewLI.appendChild(link);
+                    Parent.appendChild(NewLI);
+				}
+				$(Parent).listview('refresh');
+			}
+			 
+            function foursquare(latitude, longitude) {
+				var location = latitude + ',' + longitude;
+                $.ajax({
+                    url: 'http://www.tapthebeer.com/index/19',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        createLIElements(data);
+                    },
+					data: {
+						link: location
+					},
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Something wrong on Foursquare!");
+                    }
+                });
+            }
 
-	        var NewLI = document.createElement("LI");
-	        NewLI.setAttribute('data-theme', 'c');
-	        var link = document.createElement("a");
-	        link.setAttribute("href", "#beers")
-	        link.setAttribute("data-transition", "slide");
-	        var linkText = document.createTextNode("Bar 1");
-	        link.appendChild(linkText);
+            function getNearestPlaces() {
+                latitude = '60.10';
+                longitude = '24.57';
+                //These should be retrieved from GPS
+                foursquare(latitude, longitude);
+            }
 
-	        NewLI.appendChild(link);
-	        Parent.appendChild(NewLI);
+            function selectPlace(foursquareid, venuename) {
+                foursquareId = foursquareid;
+				venueName = venuename;
+                $.ajax({
+                    url: 'http://www.tapthebeer.com/index/22',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        getBeers(data.results.untappd_venue_id);
+                    },
+					data: {
+						link: foursquareId
+					},
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Something wrong on Untappd!");
+                    }
+                });
+            }
 
-	        NewLI = document.createElement("LI");
-	        NewLI.setAttribute('data-theme', 'c');
-	        link = document.createElement("a");
-	        link.setAttribute("href", "#beers")
-	        link.setAttribute("data-transition", "slide");
-	        linkText = document.createTextNode("Bar 2");
-	        link.appendChild(linkText);
+            function getBeers(pubId) {
+				venueId = pubId;
+                $.ajax({
+                    url: 'http://www.tapthebeer.com/BeerAtPub?PubId=' + pubId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        createLIElementsForBeers(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Something wrong on Hammerkit!");
+                    }
+                });
 
-	        NewLI.appendChild(link);
-	        Parent.appendChild(NewLI);
-	    }
-	    function selectPlace() {
-	        // Update the beer list according to the selection
-	    }
-	    function checkIn() {
-	        alert("Done");
-	    }
+            }
+
+            function checkIn(beerID) {
+                $.ajax({
+                    url: 'http://www.tapthebeer.com/index/18',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        bid: beerID,
+                        gmt_offset: +2.00,
+                        foursquare_id: foursquareId,
+                        user_lat: latitude,
+                        user_lng: longitude,
+						AuthString: authString
+                    },
+                    success: function (data) {
+                        alert("Checkin succeeded");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Checkin failed!");
+                    }
+                });
+            }
+			
+			function searchBeer(){
+				var $beerName = document.getElementById('beerName').value;
+				untappdBeerSearch($beerName);
+			}
+			
+			function untappdBeerSearch(searchString){
+				$.ajax({
+                    url: 'http://www.tapthebeer.com/index/25',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        q: searchString,
+						AuthString: authString
+                    },
+                    success: function (data) {
+                        createLIElementsForBeerSearch(data.results);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Untappd isn't working!");
+                    }
+                });
+			}
+			function addBeer(beerid, beername){
+				$.ajax({
+                    url: 'http://www.tapthebeer.com/addBeerAtPub?UntappdLocId=' + venueId + '&FoursquareLocId=' + foursquareId + '&Name=' + venueName + '&BeerId=' + beerid + '&BeerName=' + beername,
+                    type: 'GET',
+                    success: function (data) {
+                        selectPlace(foursquareId, venueName);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                        alert("Untappd isn't working!");
+                    }
+                });
+			}
         </script>
-		<div data-role="page" data-theme="b" id="login">
-			<form>
-				<p>Username: <input type="text" name="username" id="username" size="25" required/></p>
-				<p>Password: <input type="password" name="password" id="password" size="25" required/></p>
-				<a onclick="login()" href="#bars" data-role="button">Login</a>
-			</form>
-		</div>
+        <div data-role="page" data-theme="b" id="login">
+            <form>
+                <p>Username:
+                    <input type="text" name="username" id="username" size="25" required/>
+                </p>
+                <p>Password:
+                    <input type="password" name="password" id="password" size="25"
+                    required/>
+                </p>
+                <a onclick="login()" href="#" data-role="button">Login</a>
+            </form>
+        </div>
         <div data-role="page" data-theme="b" id="bars">
             <div data-theme="b" data-role="header">
-                <h3>
-                    Tap The Beer
-                </h3>
+                <h3>Tap The Beer</h3>
             </div>
             <div data-role="content">
-                <ul id="bar-list" data-role="listview" data-divider-theme="b" data-inset="true">
-                    <li data-role="list-divider" role="heading">
-                        Bars
+                <ul class="bar-list" id="bar-list" data-role="listview" data-divider-theme="b"
+                data-inset="true">
+                    <li data-role="list-divider" role="heading">Bars</li>
+                    <li data-theme="c">
+                        <a href="#beers" onclick="selectPlace('4b7c2f17f964a520c3822fe3','Aalto Venture Garage')">Aalto Venture Garage</a>
                     </li>
                 </ul>
             </div>
         </div>
-		<div data-role="page" data-theme="b" id="beers">
-			<div data-role="content">
-                <ul data-role="listview" data-divider-theme="b" data-inset="true">
-                    <li data-role="list-divider" role="heading">
-                        Beers
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" onclick="checkIn()" data-transition="slide">
-                            Koff
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Karjala
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Poron kusi
-                        </a>
-                    </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
-                            Random
-                        </a>
-                    </li>
+        <div data-role="page" data-theme="b" id="beers">
+            <div data-role="content">
+                <ul class="beer-list" id="beer-list" data-role="listview" data-divider-theme="b"
+                data-inset="true">
+                    <li data-role="list-divider" role="heading">Beers</li>
+                </ul>
+				<a href="#addBeer" data-rel="dialog" data-transition="pop" data-role="button">Search</a>
+            </div>
+        </div>
+        <div data-role="page" data-theme="b" id="checkin">
+            <div data-role="content">
+                <ul class="recommendation-list" id="recommendation-list" data-role="listview"
+                data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">Recommendations</li>
                 </ul>
             </div>
-		</div>
+        </div>
+		<div data-role="page" data-theme="b" id="addBeer">
+			<div data-role="header" data-theme="e">
+				<h1>Searching beer</h1>
+			</div>
+            <div data-role="content">
+				Beer name: <input id="beerName" type="textbox" value=""></input>
+				<a onclick="searchBeer()" href="#" data-role="button">Search</a>
+				<ul class="beerSearch-list" id="beerSearch-list" data-role="listview"
+                data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">Beers found</li>
+                </ul>
+            </div>
+        </div>
     </body>
+
 </html>

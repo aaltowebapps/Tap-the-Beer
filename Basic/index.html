@@ -4,9 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 1.0.3</title>
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css"
-        />
+        <title>Tap The Beer 1.0.4</title>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
         <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
@@ -16,10 +14,27 @@
 				width:98%;
 			}
 		</style>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" title="default" />
+        <link rel="alternate stylesheet" href="http://sgrebnov.github.com/jqmobile-metro-theme/samples/jqm-public-demo/css/metro/jquery.mobile.metro.theme.css" title="metro" />
     </head>
     
     <body>
         <script type="text/javascript"> 
+			var isWindowsPhone = navigator.userAgent.indexOf("Windows Phone OS 7.5") != -1;
+			if (isWindowsPhone) {
+				setActiveStyleSheet("metro");
+			}
+ 
+			function setActiveStyleSheet(title) {
+				var i, a, main;
+				for (i = 0; (a = document.getElementsByTagName("link")[i]); i++) {
+					if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+					a.disabled = true;
+					if (a.getAttribute("title") == title) a.disabled = false;
+					}
+				}
+			}
+			
             var authString = '';
             var latitude = '';
             var longitude = '';

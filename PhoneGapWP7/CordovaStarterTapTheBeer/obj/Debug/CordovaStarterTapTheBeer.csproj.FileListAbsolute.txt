@@ -12,3 +12,17 @@ C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\obj\Debug\Cor
 C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\obj\Debug\CordovaStarterTapTheBeer.dll
 C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\obj\Debug\CordovaStarterTapTheBeer.pdb
 C:\Demos\Cordova\CordovaStarterTapTheBeer\CordovaStarterTapTheBeer\obj\Debug\XapCacheFile.xml
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\Bin\Debug\ApplicationIcon.png
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\Bin\Debug\Background.png
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\Bin\Debug\CordovaStarterTapTheBeer.dll
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\Bin\Debug\CordovaStarterTapTheBeer.pdb
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\Bin\Debug\AppManifest.xaml
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\Bin\Debug\CordovaStarterTapTheBeer.xap
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\Bin\Debug\WP7CordovaClassLib.dll
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\obj\Debug\CordovaStarterTapTheBeer.csprojResolveAssemblyReference.cache
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\obj\Debug\App.g.i.cs
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\obj\Debug\MainPage.g.i.cs
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\obj\Debug\CordovaStarterTapTheBeer.g.resources
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\obj\Debug\CordovaStarterTapTheBeer.dll
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\obj\Debug\CordovaStarterTapTheBeer.pdb
+C:\Dropbox\Repositories\github\Tap-the-Beer\PhoneGapWP7\CordovaStarterTapTheBeer\obj\Debug\XapCacheFile.xml
