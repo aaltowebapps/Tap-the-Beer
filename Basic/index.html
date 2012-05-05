@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 1.0.4</title>
+        <title>Tap The Beer 1.0.5</title>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
         <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
@@ -19,49 +19,52 @@
     </head>
     
     <body>
-        <script type="text/javascript"> 
-			var isWindowsPhone = navigator.userAgent.indexOf("Windows Phone OS 7.5") != -1;
-			if (isWindowsPhone) {
-				setActiveStyleSheet("metro");
-			}
- 
-			function setActiveStyleSheet(title) {
-				var i, a, main;
-				for (i = 0; (a = document.getElementsByTagName("link")[i]); i++) {
-					if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
-					a.disabled = true;
-					if (a.getAttribute("title") == title) a.disabled = false;
-					}
-				}
-			}
-			
+        <script type="text/javascript">
+            var isWindowsPhone = navigator.userAgent.indexOf("Windows Phone OS 7.5") != -1;
+            if (isWindowsPhone) {
+                setActiveStyleSheet("metro");
+            }
+
+            function setActiveStyleSheet(title) {
+                var i, a, main;
+                for (i = 0; (a = document.getElementsByTagName("link")[i]); i++) {
+                    if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                        a.disabled = true;
+                        if (a.getAttribute("title") == title) a.disabled = false;
+                    }
+                }
+            }
+
             var authString = '';
             var latitude = '';
             var longitude = '';
             var foursquareId = '';
-			var venueName = '';
-			var venueId = '';
+            var venueName = '';
+            var venueId = '';
             function login() {
                 var username = document.getElementById('username').value;
                 var passwordHash = Crypto.MD5(document.getElementById('password').value);
                 authString = 'Basic ' + btoa(username + ':' + passwordHash);
-				$.ajax({
-					url: 'http://www.tapthebeer.com/index/24?AuthString=' + authString,
-					type: 'GET',
-					dataType: 'json',
-					success: function (data) {
-						getNearestPlaces();
-                        $.mobile.changePage('#bars');
-					},
-					error: function (jqXHR, textStatus, errorThrown) {
+                $.ajax({
+                    url: 'http://www.tapthebeer.com/index/24?AuthString=' + authString,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        getNearestPlaces();
+                        $(".loginPage").animate({ left: 480 }, 300, function () {
+							$(this).hide();
+						});
+						$(".barsPage").show().animate({ left: 0 }, 300);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
                         console.log("textStatus: ", textStatus);
                         console.log("errorThrown: ", errorThrown);
                         alert("wrong username or password!");
                     }
-				});
+                });
             }
-			
+
             function createLIElements(data) {
                 var venues = data.response.venues;
                 var Parent = document.getElementById("bar-list");
@@ -84,13 +87,13 @@
             function createLIElementsForBeers(data) {
                 var beers = data.BeersAtPub[0];
                 var Parent = document.getElementById("beer-list");
-				$(Parent).empty();
-				var divider = document.createElement("LI");
-				divider.setAttribute('data-role', 'list-divider');
-				divider.setAttribute('role','heading');
-				var dividerText = document.createTextNode('Beers');
-				divider.appendChild(dividerText);
-				Parent.appendChild(divider);
+                $(Parent).empty();
+                var divider = document.createElement("LI");
+                divider.setAttribute('data-role', 'list-divider');
+                divider.setAttribute('role', 'heading');
+                var dividerText = document.createTextNode('Beers');
+                divider.appendChild(dividerText);
+                Parent.appendChild(divider);
                 for (var i = 0; i < beers.length; i++) {
                     var beer = beers[i];
                     var NewLI = document.createElement("LI");
@@ -106,18 +109,18 @@
                 }
                 $(Parent).listview('refresh');
             }
-			
-			function createLIElementsForBeerSearch(data){
-				var Parent = document.getElementById("beerSearch-list");
-				$(Parent).empty();
-				var divider = document.createElement("LI");
-				divider.setAttribute('data-role', 'list-divider');
-				divider.setAttribute('role','heading');
-				var dividerText = document.createTextNode('Beers found');
-				divider.appendChild(dividerText);
-				Parent.appendChild(divider);
-				for (var i = 0; i < data.length; i++){
-					var beer = data[i];
+
+            function createLIElementsForBeerSearch(data) {
+                var Parent = document.getElementById("beerSearch-list");
+                $(Parent).empty();
+                var divider = document.createElement("LI");
+                divider.setAttribute('data-role', 'list-divider');
+                divider.setAttribute('role', 'heading');
+                var dividerText = document.createTextNode('Beers found');
+                divider.appendChild(dividerText);
+                Parent.appendChild(divider);
+                for (var i = 0; i < data.length; i++) {
+                    var beer = data[i];
                     var NewLI = document.createElement("LI");
                     NewLI.setAttribute('data-theme', 'c');
                     var link = document.createElement("a");
@@ -128,12 +131,12 @@
                     link.appendChild(linkText);
                     NewLI.appendChild(link);
                     Parent.appendChild(NewLI);
-				}
-				$(Parent).listview('refresh');
-			}
-			 
+                }
+                $(Parent).listview('refresh');
+            }
+
             function foursquare(latitude, longitude) {
-				var location = latitude + ',' + longitude;
+                var location = latitude + ',' + longitude;
                 $.ajax({
                     url: 'http://www.tapthebeer.com/index/19',
                     type: 'POST',
@@ -141,9 +144,9 @@
                     success: function (data) {
                         createLIElements(data);
                     },
-					data: {
-						link: location
-					},
+                    data: {
+                        link: location
+                    },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
                         console.log("textStatus: ", textStatus);
@@ -162,7 +165,7 @@
 
             function selectPlace(foursquareid, venuename) {
                 foursquareId = foursquareid;
-				venueName = venuename;
+                venueName = venuename;
                 $.ajax({
                     url: 'http://www.tapthebeer.com/index/22',
                     type: 'POST',
@@ -170,9 +173,9 @@
                     success: function (data) {
                         getBeers(data.results.untappd_venue_id);
                     },
-					data: {
-						link: foursquareId
-					},
+                    data: {
+                        link: foursquareId
+                    },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
                         console.log("textStatus: ", textStatus);
@@ -183,7 +186,7 @@
             }
 
             function getBeers(pubId) {
-				venueId = pubId;
+                venueId = pubId;
                 $.ajax({
                     url: 'http://www.tapthebeer.com/BeerAtPub?PubId=' + pubId,
                     type: 'GET',
@@ -212,7 +215,7 @@
                         foursquare_id: foursquareId,
                         user_lat: latitude,
                         user_lng: longitude,
-						AuthString: authString
+                        AuthString: authString
                     },
                     success: function (data) {
                         alert("Checkin succeeded");
@@ -225,20 +228,20 @@
                     }
                 });
             }
-			
-			function searchBeer(){
-				var $beerName = document.getElementById('beerName').value;
-				untappdBeerSearch($beerName);
-			}
-			
-			function untappdBeerSearch(searchString){
-				$.ajax({
+
+            function searchBeer() {
+                var $beerName = document.getElementById('beerName').value;
+                untappdBeerSearch($beerName);
+            }
+
+            function untappdBeerSearch(searchString) {
+                $.ajax({
                     url: 'http://www.tapthebeer.com/index/25',
                     type: 'POST',
                     dataType: 'json',
                     data: {
                         q: searchString,
-						AuthString: authString
+                        AuthString: authString
                     },
                     success: function (data) {
                         createLIElementsForBeerSearch(data.results);
@@ -250,9 +253,9 @@
                         alert("Untappd isn't working!");
                     }
                 });
-			}
-			function addBeer(beerid, beername){
-				$.ajax({
+            }
+            function addBeer(beerid, beername) {
+                $.ajax({
                     url: 'http://www.tapthebeer.com/addBeerAtPub?UntappdLocId=' + venueId + '&FoursquareLocId=' + foursquareId + '&Name=' + venueName + '&BeerId=' + beerid + '&BeerName=' + beername,
                     type: 'GET',
                     success: function (data) {
@@ -265,9 +268,9 @@
                         alert("Untappd isn't working!");
                     }
                 });
-			}
+            }
         </script>
-        <div data-role="page" data-theme="b" id="login">
+        <div class="loginPage" data-role="page" data-theme="b" id="login">
             <form>
                 <p>Username:
                     <input type="text" name="username" id="username" size="25" required/>
@@ -279,7 +282,7 @@
                 <a onclick="login()" href="#" data-role="button">Login</a>
             </form>
         </div>
-        <div data-role="page" data-theme="b" id="bars">
+        <div class="barsPage" data-role="page" data-theme="b" id="bars">
             <div data-theme="b" data-role="header">
                 <h3>Tap The Beer</h3>
             </div>

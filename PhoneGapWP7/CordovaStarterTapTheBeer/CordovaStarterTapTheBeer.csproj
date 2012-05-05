@@ -85,7 +85,6 @@
     <Content Include="www\index.html">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="www\master.css" />
     <None Include="Properties\AppManifest.xml">
       <SubType>Designer</SubType>
     </None>
