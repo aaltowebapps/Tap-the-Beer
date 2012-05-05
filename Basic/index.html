@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 1.0.5</title>
+        <title>Tap The Beer 1.0.6</title>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
         <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
@@ -51,10 +51,7 @@
                     dataType: 'json',
                     success: function (data) {
                         getNearestPlaces();
-                        $(".loginPage").animate({ left: 480 }, 300, function () {
-							$(this).hide();
-						});
-						$(".barsPage").show().animate({ left: 0 }, 300);
+                        $.mobile.changePage($('#bars'));
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
@@ -270,7 +267,7 @@
                 });
             }
         </script>
-        <div class="page loginPage" data-role="page" data-theme="b" id="login">
+        <div class="loginPage" data-role="page" data-theme="b" id="login">
             <form>
                 <p>Username:
                     <input type="text" name="username" id="username" size="25" required/>
@@ -282,7 +279,7 @@
                 <a onclick="login()" href="#" data-role="button">Login</a>
             </form>
         </div>
-        <div class="page barsPage" data-role="page" data-theme="b" id="bars">
+        <div class="barsPage" data-role="page" data-theme="b" id="bars">
             <div data-theme="b" data-role="header">
                 <h3>Tap The Beer</h3>
             </div>
