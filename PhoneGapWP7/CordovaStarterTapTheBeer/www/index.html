@@ -5,8 +5,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Tap The Beer 1.0.6</title>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-        <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
         <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
 		<style type="text/css">
 			form {
@@ -16,10 +16,13 @@
 		</style>
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" title="default" />
         <link rel="alternate stylesheet" href="http://sgrebnov.github.com/jqmobile-metro-theme/samples/jqm-public-demo/css/metro/jquery.mobile.metro.theme.css" title="metro" />
+        <script type="text/javascript" charset="utf-8" src="cordova-1.6.1.js"></script>
     </head>
     
     <body>
         <script type="text/javascript">
+            $.support.cors = true;
+            $.mobile.allowCrossDomainPages = true;
             var isWindowsPhone = navigator.userAgent.indexOf("Windows Phone OS 7.5") != -1;
             if (isWindowsPhone) {
                 setActiveStyleSheet("metro");
@@ -42,9 +45,13 @@
             var venueName = '';
             var venueId = '';
             function login() {
+                navigator.notification.alert("seriously?");
                 var username = document.getElementById('username').value;
+                navigator.notification.alert("seriously1?");
                 var passwordHash = Crypto.MD5(document.getElementById('password').value);
+                navigator.notification.alert("seriously2?");
                 authString = 'Basic ' + btoa(username + ':' + passwordHash);
+                navigator.notification.alert("testing?");
                 $.ajax({
                     url: 'http://www.tapthebeer.com/index/24?AuthString=' + authString,
                     type: 'GET',
@@ -52,12 +59,13 @@
                     success: function (data) {
                         getNearestPlaces();
                         $.mobile.changePage($('#bars'));
+                        navigator.notification.alert("Changing page");
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
                         console.log("textStatus: ", textStatus);
                         console.log("errorThrown: ", errorThrown);
-                        alert("wrong username or password!");
+                        navigator.notification.alert("wrong username or password!");
                     }
                 });
             }
