@@ -82,6 +82,24 @@
                 }
                 $(Parent).listview('refresh');
             }
+			
+			function createLIElementsForBeerSearch(data){
+				var Parent = document.getElementById("beerSearch-list");
+				for (var i = 0; i < data.length; i++){
+					var beer = data[i];
+                    var NewLI = document.createElement("LI");
+                    NewLI.setAttribute('data-theme', 'c');
+                    var link = document.createElement("a");
+                    link.setAttribute("href", "#checkin");
+                    link.setAttribute("data-transition", "slide");
+                    //link.setAttribute('onclick', "checkIn('" + beer.BeerId + "')");
+                    var linkText = document.createTextNode(beer.beer_name);
+                    link.appendChild(linkText);
+                    NewLI.appendChild(link);
+                    Parent.appendChild(NewLI);
+				}
+				$(Parent).listview('refresh');
+			}
 			 
             function foursquare(latitude, longitude) {
 				var location = latitude + ',' + longitude;
@@ -190,7 +208,7 @@
 						AuthString: authString
                     },
                     success: function (data) {
-                        alert(data);
+                        createLIElementsForBeerSearch(data.results);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("jqXHR: ", jqXHR);
@@ -264,8 +282,12 @@
 				<h1>Searching beer</h1>
 			</div>
             <div data-role="content">
-				Beer name: <input id="beerName" type="textbox" value="Type something"></input>
+				Beer name: <input id="beerName" type="textbox" value=""></input>
 				<a onclick="searchBeer()" href="#" data-role="button">Search</a>
+				<ul class="beerSearch-list" id="beerSearch-list" data-role="listview"
+                data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">Beers found</li>
+                </ul>
             </div>
         </div>
     </body>
