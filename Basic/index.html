@@ -16,6 +16,7 @@
 		</style>
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" title="default" />
         <link rel="alternate stylesheet" href="http://sgrebnov.github.com/jqmobile-metro-theme/samples/jqm-public-demo/css/metro/jquery.mobile.metro.theme.css" title="metro" />
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
     </head>
     
     <body>
@@ -258,6 +259,23 @@
 				longitude = location.coords.longitude;
 				alert(location.coords.accuracy);
 				foursquare(latitude, longitude);
+			}
+			if(google.loader.ClientLocation)
+			{
+				visitor_lat = google.loader.ClientLocation.latitude;
+				visitor_lon = google.loader.ClientLocation.longitude;
+				visitor_city = google.loader.ClientLocation.address.city;
+				visitor_region = google.loader.ClientLocation.address.region;
+				visitor_country = google.loader.ClientLocation.address.country;
+				visitor_countrycode = google.loader.ClientLocation.address.country_code;
+				alert(visitor_lat);
+				alert("Location found");
+			}
+			else
+			{
+				// ClientLocation not found or not populated
+				// so perform error handling
+				alert("location not found");
 			}
                 //latitude = '60.10';
                 //longitude = '24.57';
