@@ -252,10 +252,17 @@
             }
 
             function getNearestPlaces() {
-                latitude = '60.10';
-                longitude = '24.57';
+			navigator.geolocation.getCurrentPosition(GetLocation);
+			function GetLocation(location) {
+				latitude = location.coords.latitude;
+				longitude = location.coords.longitude;
+				alert(location.coords.accuracy);
+				foursquare(latitude, longitude);
+			}
+                //latitude = '60.10';
+                //longitude = '24.57';
                 //These should be retrieved from GPS
-                foursquare(latitude, longitude);
+                //foursquare(latitude, longitude);
             }
 
             function selectPlace(foursquareid, venuename) {
