@@ -44,7 +44,7 @@
             function login() {
                 var username = document.getElementById('username').value;
                 var passwordHash = Crypto.MD5(document.getElementById('password').value);
-                authString = 'Basic ' + $.base64.encode(username + ':' + passwordHash);
+                authString = 'Basic ' + $.base64Encode(username + ':' + passwordHash);
                 $.ajax({
                     url: 'http://www.tapthebeer.com/index/24?AuthString=' + authString,
                     type: 'GET',
