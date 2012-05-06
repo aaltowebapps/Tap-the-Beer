@@ -239,7 +239,7 @@
                     var link = document.createElement("a");
                     link.setAttribute("href", "#beers");
                     link.setAttribute("data-transition", "slide");
-                    link.setAttribute('onclick', "addBeer('" + beer.beer_id + "','" + beer.beer_name + "')");
+                    link.setAttribute('onclick', "addBeerHack('" + beer.beer_id + "','" + beer.beer_name + "')");
                     var linkText = document.createTextNode(beer.beer_name);
                     link.appendChild(linkText);
                     NewLI.appendChild(link);
@@ -370,7 +370,7 @@
                     }
                 });
             }
-            function addBeer(beerid, beername) {
+            function addBeerHack(beerid, beername) {
                 $.ajax({
                     url: 'http://www.tapthebeer.com/addBeerAtPub?UntappdLocId=' + venueId + '&FoursquareLocId=' + foursquareId + '&Name=' + venueName + '&BeerId=' + beerid + '&BeerName=' + beername,
                     type: 'GET',
