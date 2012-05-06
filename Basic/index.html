@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 1.0.9</title>
+        <title>Tap The Beer 1.1.0</title>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
         <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
@@ -17,11 +17,28 @@
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" title="default" />
         <link rel="alternate stylesheet" href="http://sgrebnov.github.com/jqmobile-metro-theme/samples/jqm-public-demo/css/metro/jquery.mobile.metro.theme.css" title="metro" />
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<script type="text/javascript" src="http://www.merkwelt.com/people/stan/geo_js/js/geo.js"></script>
     </head>
     
     <body>
         <script type="text/javascript">
 		jQuery.support.cors = true;
+		if(geo_position_js.init()){
+			geo_position_js.getCurrentPosition(success_callback,error_callback,{enableHighAccuracy:true});
+		}
+		else{
+			alert("Functionality not available");
+		}
+
+		function success_callback(p)
+		{
+			alert('lat='+p.coords.latitude.toFixed(2)+';lon='+p.coords.longitude.toFixed(2));
+		}
+		
+		function error_callback(p)
+		{
+			alert('error='+p.code);
+		}
 		(function($){
 		
 		var keyString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -253,30 +270,6 @@
             }
 
             function getNearestPlaces() {
-			navigator.geolocation.getCurrentPosition(GetLocation);
-			function GetLocation(location) {
-				latitude = location.coords.latitude;
-				longitude = location.coords.longitude;
-				alert(location.coords.accuracy);
-				foursquare(latitude, longitude);
-			}
-			if(google.loader.ClientLocation)
-			{
-				visitor_lat = google.loader.ClientLocation.latitude;
-				visitor_lon = google.loader.ClientLocation.longitude;
-				visitor_city = google.loader.ClientLocation.address.city;
-				visitor_region = google.loader.ClientLocation.address.region;
-				visitor_country = google.loader.ClientLocation.address.country;
-				visitor_countrycode = google.loader.ClientLocation.address.country_code;
-				alert(visitor_lat);
-				alert("Location found");
-			}
-			else
-			{
-				// ClientLocation not found or not populated
-				// so perform error handling
-				alert("location not found");
-			}
                 //latitude = '60.10';
                 //longitude = '24.57';
                 //These should be retrieved from GPS
