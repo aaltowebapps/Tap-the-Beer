@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 1.1.0</title>
+        <title>Tap The Beer 1.1.1</title>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
         <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
@@ -23,6 +23,12 @@
     <body>
         <script type="text/javascript">
 		jQuery.support.cors = true;
+		var authString = '';
+        var latitude = '';
+        var longitude = '';
+        var foursquareId = '';
+        var venueName = '';
+        var venueId = '';
 		if(geo_position_js.init()){
 			geo_position_js.getCurrentPosition(success_callback,error_callback,{enableHighAccuracy:true});
 		}
@@ -32,7 +38,8 @@
 
 		function success_callback(p)
 		{
-			alert('lat='+p.coords.latitude.toFixed(2)+';lon='+p.coords.longitude.toFixed(2));
+			latitude = p.coords.latitude.toFixed(2);
+			longitude = p.coords.longitude.toFixed(2);
 		}
 		
 		function error_callback(p)
@@ -150,13 +157,6 @@
                     }
                 }
             }
-
-            var authString = '';
-            var latitude = '';
-            var longitude = '';
-            var foursquareId = '';
-            var venueName = '';
-            var venueId = '';
             function login() {
                 var username = document.getElementById('username').value;
                 var passwordHash = Crypto.MD5(document.getElementById('password').value);
@@ -270,10 +270,13 @@
             }
 
             function getNearestPlaces() {
-                //latitude = '60.10';
-                //longitude = '24.57';
+                if (latitude == ''){
+					latitude = '60.10';
+					longitude = '24.57';
+					alert("default location");
+				}
                 //These should be retrieved from GPS
-                //foursquare(latitude, longitude);
+                foursquare(latitude, longitude);
             }
 
             function selectPlace(foursquareid, venuename) {
