@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tap The Beer 1.0.9</title>
+        <title>Tap The Beer 1.1.2</title>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
         <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
@@ -14,14 +14,36 @@
 				width:98%;
 			}
 		</style>
-		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" title="default" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" title="default" />
         <link rel="alternate stylesheet" href="http://sgrebnov.github.com/jqmobile-metro-theme/samples/jqm-public-demo/css/metro/jquery.mobile.metro.theme.css" title="metro" />
-        <script type="text/javascript" charset="utf-8" src="cordova-1.6.1.js"></script>
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<script type="text/javascript" src="http://www.merkwelt.com/people/stan/geo_js/js/geo.js"></script>
     </head>
     
     <body>
         <script type="text/javascript">
             jQuery.support.cors = true;
+            var authString = '';
+            var latitude = '';
+            var longitude = '';
+            var foursquareId = '';
+            var venueName = '';
+            var venueId = '';
+            if (geo_position_js.init()) {
+                geo_position_js.getCurrentPosition(success_callback, error_callback, { enableHighAccuracy: true });
+            }
+            else {
+                alert("Functionality not available");
+            }
+
+            function success_callback(p) {
+                latitude = p.coords.latitude.toFixed(2);
+                longitude = p.coords.longitude.toFixed(2);
+            }
+
+            function error_callback(p) {
+                alert('error=' + p.code);
+            }
             (function ($) {
 
                 var keyString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -133,13 +155,6 @@
                     }
                 }
             }
-
-            var authString = '';
-            var latitude = '';
-            var longitude = '';
-            var foursquareId = '';
-            var venueName = '';
-            var venueId = '';
             function login() {
                 var username = document.getElementById('username').value;
                 var passwordHash = Crypto.MD5(document.getElementById('password').value);
@@ -222,7 +237,7 @@
                     var link = document.createElement("a");
                     link.setAttribute("href", "#beers");
                     link.setAttribute("data-transition", "slide");
-                    link.setAttribute('onclick', "addBeer('" + beer.beer_id + "','" + beer.beer_name + "')");
+                    link.setAttribute('onclick', "addBeerHack('" + beer.beer_id + "','" + beer.beer_name + "')");
                     var linkText = document.createTextNode(beer.beer_name);
                     link.appendChild(linkText);
                     NewLI.appendChild(link);
@@ -253,8 +268,11 @@
             }
 
             function getNearestPlaces() {
-                latitude = '60.10';
-                longitude = '24.57';
+                if (latitude == '') {
+                    latitude = '60.10';
+                    longitude = '24.57';
+                    alert("default location");
+                }
                 //These should be retrieved from GPS
                 foursquare(latitude, longitude);
             }
@@ -350,7 +368,7 @@
                     }
                 });
             }
-            function addBeer(beerid, beername) {
+            function addBeerHack(beerid, beername) {
                 $.ajax({
                     url: 'http://www.tapthebeer.com/addBeerAtPub?UntappdLocId=' + venueId + '&FoursquareLocId=' + foursquareId + '&Name=' + venueName + '&BeerId=' + beerid + '&BeerName=' + beername,
                     type: 'GET',
