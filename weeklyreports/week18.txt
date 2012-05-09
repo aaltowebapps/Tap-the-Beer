@@ -1,0 +1,3 @@
+* work on video "script" for presentback/demo day
+* continue to refine app
+* extra testing of functionality by drinking beer
