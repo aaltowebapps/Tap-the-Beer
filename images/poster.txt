@@ -1,5 +1,6 @@
-The current mobile application for untappd.com means that you are looking at your mobile screen rather than being social because it requires that you type the name of the beer.
-The beer selection in a bar is relatively static, and most bars have a limited selection of beers. So, we could make a better user experience for users of untappd.com by using the more common tap and swipe/scroll actions of mobile.
+The current mobile application for untappd.com requires that you type the name of the beer as the first action after loggin in. This means that you are looking at your mobile screen rather than being social.
+The beer selection in a bar is relatively static, and most bars have only a limited selection of beers. 
+So, we could make a better user experience for users of untappd.com by using the more common tap and swipe/scroll actions of mobile.
 
 Our team has made a HTML5 mobile app using jQuery and hosted it on Hammerkit. Using Hammerkit allowed us to concentrate on building the front-end, as the mobile app would be making calls to the untappd API.
 
