@@ -1,4 +1,4 @@
-The current mobile application for untappd.com requires that you type the name of the beer as the first action after loggin in. This means that you are looking at your mobile screen rather than being social.
+The current mobile application for untappd.com requires that you type the name of the beer as the first action after logging in. This means that you are looking at your mobile screen rather than being social.
 The beer selection in a bar is relatively static, and most bars have only a limited selection of beers. 
 So, we could make a better user experience for users of untappd.com by using the more common tap and swipe/scroll actions of mobile.
 
