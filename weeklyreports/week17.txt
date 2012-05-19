@@ -1,0 +1,3 @@
+made a live version at http://www.tapthebeer.com
+
+made login and other basic functionality work with Hammerkit proxy code, to proxy calls
