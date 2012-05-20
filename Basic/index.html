@@ -81,6 +81,47 @@
 	    font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/ !important;
 	text-decoration: none !important;
 }
+.ui-bar-b {
+	border: 1px solid #613812 /*{a-bar-border}*/ !important;
+	background: #613812 /*{a-bar-background-color}*/ !important;
+	color: #f0f0ef /*{a-bar-color}*/ !important;
+	font-weight: bold !important;
+	text-shadow: 0 /*{a-bar-shadow-x}*/ 1px /*{a-bar-shadow-y}*/ 1px /*{a-bar-shadow-radius}*/ #000000 /*{a-bar-shadow-color}*/ !important;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #613812 /*{a-bar-background-start}*/), to( #b26824 /*{a-bar-background-end}*/)) !important; /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #613812 /*{a-bar-background-start}*/, #b26824 /*{a-bar-background-end}*/) !important; /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #613812 /*{a-bar-background-start}*/, #b26824 /*{a-bar-background-end}*/) !important; /* FF3.6 */
+	background-image:     -ms-linear-gradient( #613812 /*{a-bar-background-start}*/, #b26824 /*{a-bar-background-end}*/) !important; /* IE10 */
+	background-image:      -o-linear-gradient( #613812 /*{a-bar-background-start}*/, #b26824 /*{a-bar-background-end}*/) !important; /* Opera 11.10+ */
+	background-image:         linear-gradient( #613812 /*{a-bar-background-start}*/, #b26824 /*{a-bar-background-end}*/) !important;
+}
+
+.ui-bar-b .ui-link-inherit {
+	color: #f0f0ef /*{a-bar-color}*/ !important;
+}
+.ui-bar-b .ui-link {
+	color: #7cc4e7 /*{a-bar-link-color}*/ !important;
+	font-weight: bold !important;
+}
+
+.ui-bar-b .ui-link:hover {
+	color: #2489CE /*{a-bar-link-hover}*/ !important;
+}
+
+.ui-bar-b .ui-link:active {
+	color: #2489CE /*{a-bar-link-active}*/ !important;
+}
+
+.ui-bar-b .ui-link:visited {
+    color: #2489CE /*{a-bar-link-visited}*/ !important;
+}
+
+.ui-bar-b,
+.ui-bar-b input,
+.ui-bar-b select,
+.ui-bar-b textarea,
+.ui-bar-b button {
+	    font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/ !important;
+}
 		</style>
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" title="default" />
         <link rel="alternate stylesheet" href="http://sgrebnov.github.com/jqmobile-metro-theme/samples/jqm-public-demo/css/metro/jquery.mobile.metro.theme.css" title="metro" />
@@ -453,7 +494,7 @@
                 });
             }
         </script>
-        <div class="loginPage" data-role="page" data-theme="b" id="login" >
+      <!--  <div class="loginPage" data-role="page" data-theme="b" id="login" >
             <form>
                 <p>Username:
                     <input type="text" name="username" id="username" size="25" required/>
@@ -464,7 +505,7 @@
                 </p>
                 <a onclick="login()" href="#" data-role="button">Login</a>
             </form>
-        </div>
+        </div>-->
         <div class="barsPage" data-role="page" data-theme="b" id="bars">
             <div data-theme="b" data-role="header">
                 <h3>Tap The Beer</h3>
