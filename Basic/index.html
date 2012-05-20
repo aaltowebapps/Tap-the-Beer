@@ -4,25 +4,91 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="themes/tap-the-beer.min.css" title="default" />
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile.structure-1.1.0.min.css" />
         <title>Tap The Beer 1.1.2</title>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
         <script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js"></script>
 		<style type="text/css">
 			form {
-				padding-left:20px;
-				width:98%;
+				padding:20px !important;
+				width:98% !important;
 			}
+            input {
+                background: #F1E2A9 !important;
+            }
+            #login, #bars, #beers, #checkin, #addBeer {
+                background-image: url(ttb_bg.jpg) !important;
+                background-position: center !important;
+                background-attachment: fixed !important;
+                background-repeat: no-repeat !important;
+                background-size: cover !important;
+                -webkit-background-size: cover !important;
+                -moz-background-size: cover !important;
+                -o-background-size: cover !important;
+            }
+            .ui-btn-up-b {
+	border: 1px solid #613812 /*{a-bup-border}*/ !important;
+	background: #DBB27C /*{a-bup-background-color}*/ !important;
+	font-weight: bold !important;
+	color: #613812 /*{a-bup-color}*/ !important;
+	text-shadow: 0 /*{a-bup-shadow-x}*/ 1px /*{a-bup-shadow-y}*/ 0 /*{a-bup-shadow-radius}*/ #ffffff /*{a-bup-shadow-color}*/ !important;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #dbb27c /*{a-bup-background-start}*/), to( #cb9957 /*{a-bup-background-end}*/)) !important; /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #dbb27c /*{a-bup-background-start}*/, #cb9957 /*{a-bup-background-end}*/) !important; /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #dbb27c /*{a-bup-background-start}*/, #cb9957 /*{a-bup-background-end}*/) !important; /* FF3.6 */
+	background-image:     -ms-linear-gradient( #dbb27c /*{a-bup-background-start}*/, #cb9957 /*{a-bup-background-end}*/) !important; /* IE10 */
+	background-image:      -o-linear-gradient( #dbb27c /*{a-bup-background-start}*/, #cb9957 /*{a-bup-background-end}*/) !important; /* Opera 11.10+ */
+	background-image:         linear-gradient( #dbb27c /*{a-bup-background-start}*/, #cb9957 /*{a-bup-background-end}*/) !important;
+}
+.ui-btn-up-b a.ui-link-inherit {
+	color: #613812 /*{a-bup-color}*/ !important;
+}
+
+.ui-btn-hover-b {
+	border: 1px solid #613812 /*{a-bhover-border}*/ !important;
+	background: #CD924C /*{a-bhover-background-color}*/ !important;
+	font-weight: bold !important;
+	color: #613812 /*{a-bhover-color}*/ !important;
+	text-shadow: 0 /*{a-bhover-shadow-x}*/ 1px /*{a-bhover-shadow-y}*/ 0 /*{a-bhover-shadow-radius}*/ #ffffff /*{a-bhover-shadow-color}*/ !important;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #cd924c /*{a-bhover-background-start}*/), to( #cd924c /*{a-bhover-background-end}*/)) !important; /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #cd924c /*{a-bhover-background-start}*/, #cd924c /*{a-bhover-background-end}*/) !important; /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #cd924c /*{a-bhover-background-start}*/, #cd924c /*{a-bhover-background-end}*/) !important; /* FF3.6 */
+	background-image:     -ms-linear-gradient( #cd924c /*{a-bhover-background-start}*/, #cd924c /*{a-bhover-background-end}*/) !important; /* IE10 */
+	background-image:      -o-linear-gradient( #cd924c /*{a-bhover-background-start}*/, #cd924c /*{a-bhover-background-end}*/) !important; /* Opera 11.10+ */
+	background-image:         linear-gradient( #cd924c /*{a-bhover-background-start}*/, #cd924c /*{a-bhover-background-end}*/) !important;
+}
+.ui-btn-hover-b a.ui-link-inherit {
+	color: #613812 /*{a-bhover-color}*/ !important;
+}
+.ui-btn-down-b {
+	border: 1px solid #CD924C /*{a-bdown-border}*/ !important;
+	background: #F1E2A9 /*{a-bdown-background-color}*/ !important;
+	font-weight: bold !important;
+	color: #613812 /*{a-bdown-color}*/ !important;
+	text-shadow: 0 /*{a-bdown-shadow-x}*/ 1px /*{a-bdown-shadow-y}*/ 0 /*{a-bdown-shadow-radius}*/ #ffffff /*{a-bdown-shadow-color}*/ !important;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #f1e2a9 /*{a-bdown-background-start}*/), to( #f1e2a9 /*{a-bdown-background-end}*/)) !important; /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #f1e2a9 /*{a-bdown-background-start}*/, #f1e2a9 /*{a-bdown-background-end}*/) !important; /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #f1e2a9 /*{a-bdown-background-start}*/, #f1e2a9 /*{a-bdown-background-end}*/) !important; /* FF3.6 */
+	background-image:     -ms-linear-gradient( #f1e2a9 /*{a-bdown-background-start}*/, #f1e2a9 /*{a-bdown-background-end}*/) !important; /* IE10 */
+	background-image:      -o-linear-gradient( #f1e2a9 /*{a-bdown-background-start}*/, #f1e2a9 /*{a-bdown-background-end}*/) !important; /* Opera 11.10+ */
+	background-image:         linear-gradient( #f1e2a9 /*{a-bdown-background-start}*/, #f1e2a9 /*{a-bdown-background-end}*/) !important;
+}
+.ui-btn-down-b a.ui-link-inherit {
+	color: #613812 /*{a-bdown-color}*/ !important;
+}
+.ui-btn-up-b,
+.ui-btn-hover-b,
+.ui-btn-down-b {
+	    font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/ !important;
+	text-decoration: none !important;
+}
 		</style>
-		<!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" title="default" />-->
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" title="default" />
         <link rel="alternate stylesheet" href="http://sgrebnov.github.com/jqmobile-metro-theme/samples/jqm-public-demo/css/metro/jquery.mobile.metro.theme.css" title="metro" />
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 		<script type="text/javascript" src="http://www.merkwelt.com/people/stan/geo_js/js/geo.js"></script>
     </head>
     
-    <body>
+    <body style="background-image: url(ttb_bg.jpg) !important">
         <script type="text/javascript">
 		jQuery.support.cors = true;
 		var authString = '';
@@ -387,7 +453,7 @@
                 });
             }
         </script>
-        <div class="loginPage" data-role="page" data-theme="b" id="login">
+        <div class="loginPage" data-role="page" data-theme="b" id="login" >
             <form>
                 <p>Username:
                     <input type="text" name="username" id="username" size="25" required/>
